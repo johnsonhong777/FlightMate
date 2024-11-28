@@ -1,23 +1,71 @@
 package com.flightmate.beans;
 
+import java.time.LocalDateTime;
+
 public class Airport {
     private int airportId;
-    private String name;
-    private String location;
+    private String airportCode;
+    private String airportName;
+    private String city;
+    private String country;
+    private LocalDateTime createdAt;
 
-    public Airport(int id, String name, String location) {
-        this.airportId = id;
-        this.name = name;
-        this.location = location;
+    // Constructor
+    public Airport(int airportId, String airportCode, String airportName, String city, String country, LocalDateTime createdAt) {
+        this.airportId = airportId;
+        this.airportCode = airportCode;
+        this.airportName = airportName;
+        this.city = city;
+        this.country = country;
+        this.createdAt = createdAt;
     }
 
     // Getters and Setters
-    public int getAirportId() { return airportId; }
-    public void setAirportId (int id) { this.airportId = id; }
+    public int getAirportId() {
+        return airportId;
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public void setAirportId(int airportId) {
+        this.airportId = airportId;
+    }
 
-    public String getLocation() { return location; }
-    public void setLocation(String location) { this.location = location; }
+    public String getAirportCode() {
+        return airportCode;
+    }
+
+    public void setAirportCode(String airportCode) {
+        this.airportCode = airportCode;
+    }
+
+    public String getAirportName() {
+        return airportName;
+    }
+
+    public void setAirportName(String airportName) {
+        this.airportName = airportName;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 }
