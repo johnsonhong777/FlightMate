@@ -7,21 +7,21 @@ The project is set up as a Java Web Project. The structure looks as follows:
 
 ```
 -src
-	|- main
-			|- java
-					|- com.flightmate
-										|- beans
-										|- dao
-										|- libs
-												|- builders
-												|- services
-										|- servlets
-			|- webapp
-					|- components
-					|- css
-					|- META-INF
-					|- WEB-INF
-							|- lib
+|- main
+	|- java
+		|- com.flightmate
+			|- beans
+			|- dao
+			|- libs
+			|- builders
+			|- services
+			|- servlets
+	|- webapp
+		|- components
+		|- css
+		|- META-INF
+		|- WEB-INF
+			|- lib
 ```
 
 - JSP files are stored within the `webapp` folder.
