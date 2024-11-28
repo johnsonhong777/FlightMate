@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.flightmate.beans.User;
 import com.flightmate.libs.Role;
@@ -21,7 +23,7 @@ public class UserDao {
 	public static final String LAST_NAME = "last_name";
 	private final String PASSWORD = "password";
 	private final String UPDATED_AT = "updated_at";
-	private final String ROLE_ID = "role_id";
+	private final static String ROLE_ID = "role_id";
 	
 	private UserDao() {}
 	
@@ -250,5 +252,53 @@ public class UserDao {
 		
 		return isTrue;
 	}
+
+	public static Object getAllUsers() {
+		    List<User> users = new ArrayList<>();
+		    String sql = "SELECT " + USER_ID + ", " + EMAIL_ADDRESS + ", " + FIRST_NAME + ", " + LAST_NAME + ", " + ROLE_ID + " FROM " + ApplicationDao.USERS_TABLE;
+		    
+		    try (
+		        Connection conn = DBConnection.getDBInstance();
+		        PreparedStatement stmt = conn.prepareStatement(sql);
+		        ResultSet rs = stmt.executeQuery();
+		    ) {
+		        while (rs.next()) {
+		            User user = new UserBuilder()
+		                .setUserId(rs.getInt(USER_ID))
+		                .setEmail(rs.getString(EMAIL_ADDRESS))
+		                .setFirstName(rs.getString(FIRST_NAME))
+		                .setLastName(rs.getString(LAST_NAME))
+		                .setRoleId(rs.getInt(ROLE_ID))
+		                .create();
+		            users.add(user);
+		        }
+		    } catch (SQLException e) {
+		        DBUtil.processException(e);
+		    } catch (ClassNotFoundException e) {
+		        e.printStackTrace();
+		    }
+		    
+		    return users;
+		}
+	public boolean deleteUser(int userId) {
+	    boolean deleted = false;
+	    String sql = "DELETE FROM users WHERE user_id = ?";
+
+	    try (
+	        Connection conn = DBConnection.getDBInstance();
+	        PreparedStatement stmt = conn.prepareStatement(sql);
+	    ) {
+	        stmt.setInt(1, userId);
+
+	        deleted = stmt.executeUpdate() > 0; // Returns true if the deletion was successful
+	    } catch (SQLException e) {
+	        DBUtil.processException(e);
+	    } catch (ClassNotFoundException e) {
+	        e.printStackTrace();
+	    }
+	    return deleted;
+	}
+
+	
 	
 }
