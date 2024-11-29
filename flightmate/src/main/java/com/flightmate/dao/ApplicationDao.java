@@ -67,6 +67,37 @@ public class ApplicationDao {
             e.printStackTrace();
         }
     }
+    
+    public void createFlightsTable() {
+        String FLIGHTS_TABLE = "flights";
+        try (
+                Connection conn = DBConnection.getDBInstance();
+                Statement stmt = conn.createStatement();
+            ) {
+            if (!tableExists(conn, FLIGHTS_TABLE)) {
+                System.out.print("Creating Flights Table...");
+                String sql = "CREATE TABLE IF NOT EXISTS " + FLIGHTS_TABLE + " ("
+                        + "id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, "
+                        + "flight_number VARCHAR(50) NOT NULL UNIQUE, "
+                        + "departure_time TIMESTAMP NOT NULL, "
+                        + "arrival_time TIMESTAMP NOT NULL, "
+                        + "origin VARCHAR(100) NOT NULL, "
+                        + "destination VARCHAR(100) NOT NULL, "
+                        + "status VARCHAR(25) NOT NULL DEFAULT 'Scheduled', "
+                        + "created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, "
+                        + "updated_at TIMESTAMP"
+                        + ");";
+                stmt.executeUpdate(sql);
+                System.out.println("Created Flights Table");
+            }
+
+        } catch (SQLException e) {
+            DBUtil.processException(e);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+    
 
     public void createUserTable() {
         try (

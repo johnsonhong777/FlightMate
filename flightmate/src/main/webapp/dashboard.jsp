@@ -14,5 +14,7 @@
 		<p>Hello ${user.getFirstName()}</p>
 		<p>Your role: ${user.getRole().toString()}</p>
 	</main>
+	 <a href="flight.jsp">Manage Flights</a>
 </body>
 </html>
+
