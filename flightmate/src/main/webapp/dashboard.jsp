@@ -6,6 +6,7 @@
 <head>
 	<jsp:include page="./components/head.jsp" />
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css">
+	<title>FlightMate | Dashboard</title>
 </head>
 <body class="background">
 	<jsp:include page='./components/header.jsp' />
@@ -15,6 +16,7 @@
 		        <li><a href="flight.jsp" class="btn">Manage Flights</a></li>
 		        <li><a href="upload.jsp" class="btn">Upload Documents</a></li>
 		        <li><a href="feedback.jsp" class="btn">Submit Feedback</a></li>
+		        <li><a href="airport.jsp" class="btn">See Airports</a></li>
 	   		</ul>
 		</header>
 		<section class="container mt-2">		

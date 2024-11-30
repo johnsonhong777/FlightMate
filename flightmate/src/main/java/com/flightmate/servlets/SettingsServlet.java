@@ -12,13 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.flightmate.beans.User;
 import com.flightmate.dao.UserDao;
+import com.flightmate.libs.Route;
 import com.flightmate.libs.Validation;
 import com.flightmate.libs.services.SessionService;
 
 @WebServlet("/settings")
 public class SettingsServlet extends Validation {
 	private static final long serialVersionUID = 1L;
-	private final String SETTINGS_JSP = "settings.jsp";
 	private final String ACTION_INFO = "action_info";
 	private final String ACTION_PASS = "action_pass";
 
@@ -27,14 +27,14 @@ public class SettingsServlet extends Validation {
 		User user = SessionService.srv.getSessionUser(req);
 		
 		if (user == null) {
-			resp.sendRedirect("../login");
+			resp.sendRedirect(Route.LOGIN);
 			return;
 		}
 		
 		if (req.getAttribute(ACTION_INFO) == null) req.setAttribute(ACTION_INFO, "disabled");
 		if (req.getAttribute(ACTION_PASS) == null) req.setAttribute(ACTION_PASS, "disabled");
 		
-		req.getRequestDispatcher("./"+SETTINGS_JSP).forward(req, resp);
+		req.getRequestDispatcher(Route.SETTINGS).forward(req, resp);
 	}
 	
 	@Override
@@ -45,7 +45,7 @@ public class SettingsServlet extends Validation {
 		boolean updated = false;
 		
 		if (user == null) {
-			resp.sendRedirect("./login");
+			resp.sendRedirect(Route.LOGIN);
 			return;
 		}
 		

@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import com.flightmate.beans.User;
 import com.flightmate.dao.UserDao;
 import com.flightmate.libs.Role;
+import com.flightmate.libs.Route;
 import com.flightmate.libs.Validation;
 import com.flightmate.libs.services.SessionService;
 
@@ -25,11 +26,11 @@ public class SignupServlet extends Validation {
 		User user = SessionService.srv.getSessionUser(req);
 		
 		if (user != null) {
-			resp.sendRedirect("./dashboard");
+			resp.sendRedirect(Route.DASHBOARD);
 			return;
 		}
 		
-		req.getRequestDispatcher("signup.jsp").forward(req, resp);
+		req.getRequestDispatcher(Route.SIGNUP).forward(req, resp);
 	}
 	
 	@Override
@@ -38,14 +39,14 @@ public class SignupServlet extends Validation {
 
 		if (message != null) {
 			req.setAttribute("message", message);
-			req.getRequestDispatcher("signup.jsp").forward(req, resp);
+			req.getRequestDispatcher(Route.SIGNUP).forward(req, resp);
 			return;
 		}
 		
 		UserDao.getDao().createUser(req);
 		User user = SessionService.srv.getSessionUser(req);
 		if (user != null) {
-			resp.sendRedirect("./dashboard");
+			resp.sendRedirect(Route.DASHBOARD);
 			return;
 		} else {
 			req.setAttribute("message", "We could not create a user at this time. Please try again later.");

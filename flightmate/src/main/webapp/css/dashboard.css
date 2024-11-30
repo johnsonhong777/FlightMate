@@ -37,7 +37,7 @@
 
 .nav-btn:hover {
 	transition: ease 0.3s;
-	background-color: #3589C1;
+	background-color: var(--color-secondary-dark);
 }
 
 /* ****************** */
@@ -73,6 +73,38 @@ main {
 	font-weight: var(--fw-bold);
 	font-size: 1.25rem;
 }
+
+/* ****************** */
+/* Table              */
+/* ****************** */
+
+.temptable, .temptable th, .temptable td {
+    margin: 0;
+}
+
+.temptable th, .temptable td {
+    border: 1px solid black;
+    text-align: left;         
+    padding: 4px;     
+}
+
+.temptable, .temptable th, .temptable td {
+    margin: 0;
+}
+
+.temptable th {
+    background-color: #007bff; 
+    color: white; 
+    border: 1px solid #007bff;
+    text-align: left;
+    padding: 4px;
+}
+
+.temptable td {
+    padding: 4px;
+    vertical-align: top;
+}
+
 
 /* ****************** */
 /* Card Section       */
@@ -164,7 +196,7 @@ fieldset {
 
 .form-btn:hover {
 	transition: ease .35s background-color;
-	background-color: #3FBE49;
+	background-color: var(--color-success-highlight);
 }
 
 .form-btn:focus-visible {

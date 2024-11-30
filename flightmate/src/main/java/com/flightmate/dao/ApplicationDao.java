@@ -10,6 +10,7 @@ public class ApplicationDao {
     public static final String DB_NAME = "flightmate";
     public static final String USERS_TABLE = "users";
     public static final String ROLES_TABLE = "roles";
+    public static final String AIRPORTS_TABLE = "airports";
 
     private ApplicationDao() {}
 
@@ -119,6 +120,32 @@ public class ApplicationDao {
                         + "FOREIGN KEY (role_id) REFERENCES " + ROLES_TABLE + "(role_id));";
                 stmt.executeUpdate(sql);
                 System.out.println("Created User Table");
+            }
+
+        } catch (SQLException e) {
+            DBUtil.processException(e);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void createAirportTable() {
+        try (
+                Connection conn = DBConnection.getDBInstance();
+                Statement stmt = conn.createStatement();
+            ) {
+            if (!tableExists(conn, AIRPORTS_TABLE)) {
+                System.out.print("Creating Airport Table...");
+                String sql = "CREATE TABLE IF NOT EXISTS "+ AIRPORTS_TABLE +" ("
+                        + "id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, "
+                        + "airport_name VARCHAR(255) NOT NULL, "
+                        + "airport_code VARCHAR(3) NOT NULL UNIQUE, "
+                        + "city VARCHAR(255) NOT NULL, "
+                        + "country VARCHAR(255) NOT NULL, "
+                        + "runways INT NOT NULL);";              
+                        
+                stmt.executeUpdate(sql);
+                System.out.println("Created airports Table");
             }
 
         } catch (SQLException e) {

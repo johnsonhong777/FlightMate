@@ -6,6 +6,7 @@
 <head>
 	<jsp:include page="./components/head.jsp" />
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css">
+	<title>FlightMate | Settings</title>
 </head>
 <body class="background">
 	<jsp:include page='./components/header.jsp' />

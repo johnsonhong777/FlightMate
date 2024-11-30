@@ -3,7 +3,6 @@ package com.flightmate.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import com.flightmate.dao.DBConnection;
 
 public class FlightDao {
     public void updateFlightStatus(int flightId, String newStatus) throws SQLException, ClassNotFoundException {

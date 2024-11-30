@@ -17,6 +17,8 @@ public class DBConnection {
 		ApplicationDao.createDatabase();
 		ApplicationDao.getDao().createRolesTable();
 		ApplicationDao.getDao().createUserTable();
+		ApplicationDao.getDao().createAirportTable();
+		ApplicationDao.getDao().createFlightsTable();
 
 	}	
 	

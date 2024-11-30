@@ -11,13 +11,17 @@
 
 	--fs-paragraph: 1rem;
 
-	--bg-offwhite: #E9E9E9;
-	--bg-gradient: linear-gradient(#EED991 0%, #CCF7F4 100%);
+	--bg-offwhite: hsl(0, 0%, 91%);
+	--bg-gradient: linear-gradient(hsl(46, 73%, 75%) 0%, hsl(176, 73%, 88%) 100%);
 
-	--color-primary: #282828;
-	--color-secondary: #3c96d1;
-	--color-success: #5AD564;
-	--color-error: #FF5733;
+	--color-primary: hsl(0, 0%, 16%);
+	--color-secondary: hsl(204, 62%, 53%);
+	--color-success: hsl(125, 59%, 59%);
+	--color-error: hsl(11, 100%, 60%);
+	
+	--color-secondary-dark: hsl(204, 62%, 48%);
+	--color-success-dark: hsl(125, 59%, 51%);
+	--color-error-dark: hsl(11, 100%, 25%);
 
 }
 
@@ -225,7 +229,7 @@ h1 {
 
 .btn:hover {
 	transition: ease 0.3s;
-	background-color: #3589C1;
+	background-color: var(--color-secondary-dark);
 }
 
 .border-1 {
@@ -270,4 +274,18 @@ h1 {
 
 .success {
 	background-color: var(--color-success);
+}
+
+.success:hover {
+	transition: ease 0.3s;
+	background-color: var(--color-success-dark);
+}
+
+.error {
+	background-color: var(--color-error);
+}
+
+.error:hover {
+	transition: ease 0.3s;
+	background-color: var(--color-error-dark);
 }

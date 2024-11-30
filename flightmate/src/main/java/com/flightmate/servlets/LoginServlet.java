@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.flightmate.beans.User;
 import com.flightmate.dao.UserDao;
+import com.flightmate.libs.Route;
 import com.flightmate.libs.Validation;
 import com.flightmate.libs.services.SessionService;
 
@@ -24,11 +25,11 @@ public class LoginServlet extends Validation {
 		User user = SessionService.srv.getSessionUser(req);
 		
 		if (user != null) {
-			resp.sendRedirect("./dashboard");
+			resp.sendRedirect(Route.DASHBOARD);
 			return;
 		}
 		
-		req.getRequestDispatcher("login.jsp").forward(req, resp);
+		req.getRequestDispatcher(Route.LOGIN).forward(req, resp);
 	}
 
 	@Override
@@ -37,7 +38,7 @@ public class LoginServlet extends Validation {
 		
 		if (message != null) {
 			req.setAttribute("message", message);
-			req.getRequestDispatcher("login.jsp").forward(req, resp);
+			req.getRequestDispatcher(Route.LOGIN).forward(req, resp);
 			return;
 		}
 		
@@ -46,7 +47,7 @@ public class LoginServlet extends Validation {
 		User user = SessionService.srv.getSessionUser(req);
 		
 		if (user != null) {
-			resp.sendRedirect("./dashboard");
+			resp.sendRedirect(Route.DASHBOARD);
 			return;
 		} else {
 			req.setAttribute("message", "Cannot find user with this email address. Please register for an account.");
