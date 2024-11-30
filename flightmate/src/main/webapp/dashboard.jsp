@@ -10,11 +10,18 @@
 <body class="background">
 	<jsp:include page='./components/header.jsp' />
 	<main>
-		<h1 class="subtitle">Dashboard</h1>
-		<p>Hello ${user.getFirstName()}</p>
-		<p>Your role: ${user.getRole().toString()}</p>
+		<header class="mb-2">
+			<ul class="main-header">
+		        <li><a href="flight.jsp" class="btn">Manage Flights</a></li>
+		        <li><a href="upload.jsp" class="btn">Upload Documents</a></li>
+		        <li><a href="feedback.jsp" class="btn">Submit Feedback</a></li>
+	   		</ul>
+		</header>
+		<section class="container mt-2">		
+			<h1 class="subtitle">Dashboard</h1>
+			<p>Hello ${user.getFirstName()}</p>
+			<p>Your role: ${user.getRole().toString()}</p>
+		</section>
 	</main>
-	 <a href="flight.jsp">Manage Flights</a>
 </body>
 </html>
-

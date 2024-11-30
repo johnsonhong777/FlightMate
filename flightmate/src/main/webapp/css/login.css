@@ -11,12 +11,12 @@ main {
 /* Login / Registration Form  */
 /* ************************** */
 
-.login_form_label {
+.login-form-label {
 	display: block;
 	font-style: italic;
 }
 
-.login_form_input {
+.login-form-input {
 	display: block;
 	border: 2px solid black;
 	border-radius: .25rem;
@@ -35,22 +35,22 @@ fieldset > * {
 	flex: 1;
 }
 
-fieldset .login_form_label,
-fieldset .login_form_input {
+fieldset .login-form-label,
+fieldset .login-form-input {
 	display: inline-block;
 }
 
-.login_form_input:focus-visible {
+.login-form-input:focus-visible {
 	outline: 0px;
 	border: 2px solid var(--color-secondary);
 }
 
-.login_link {
+.login-link {
 	color: var(--color-secondary);
 	font-weight: var(--fw-bold);
 }
 
-.login_form_btn {
+.login-form-btn {
 	display: block;
 	min-width: 100%;
 	padding: 0.5rem 2rem;
@@ -60,12 +60,12 @@ fieldset .login_form_input {
 	cursor: pointer;
 }
 
-.login_form_btn:hover {
+.login-form-btn:hover {
 	transition: ease .35s background-color;
 	background-color: #3FBE49;
 }
 
-.login_form_btn:focus-visible {
+.login-form-btn:focus-visible {
 	outline: 2px solid black;
 }
 
@@ -89,7 +89,7 @@ footer {
 		font-size: 1.5rem;
 	}
 
-	.welcome_msg {
+	.welcome-msg {
 		display: none;
 	}
 }

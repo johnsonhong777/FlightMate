@@ -3,16 +3,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-	<header class="dashboard_header">
+	<header class="dashboard-header">
 		<h2><a href="${pageContext.request.contextPath}/dashboard">FlightMate</a></h2>
-		<p class="welcome_msg">Welcome ${user.getFirstName()}!</p>
+		<p class="welcome-msg">Welcome ${user.getFirstName()}!</p>
 		<nav>
 			<c:if test="${fn:contains(pageContext.request.requestURI, '/settings')}">
-					<a href='${pageContext.request.contextPath}/dashboard' class='nav_btn'>Dashboard</a>
+					<a href='${pageContext.request.contextPath}/dashboard' class='nav-btn'>Dashboard</a>
 			</c:if>
 			<c:if test="${!fn:contains(pageContext.request.requestURI, '/settings')}">
-					<a href='${pageContext.request.contextPath}/settings' class='nav_btn'>Settings</a>
+					<a href='${pageContext.request.contextPath}/settings' class='nav-btn'>Settings</a>
 			</c:if>
-			<a href="${pageContext.request.contextPath}/logout" class="nav_btn">Logout</a>
+			<a href="${pageContext.request.contextPath}/logout" class="nav-btn">Logout</a>
 		</nav>
 	</header>

@@ -223,6 +223,11 @@ h1 {
 	cursor: pointer;
 }
 
+.btn:hover {
+	transition: ease 0.3s;
+	background-color: #3589C1;
+}
+
 .border-1 {
 	border: 1px solid #ddd;
 }
