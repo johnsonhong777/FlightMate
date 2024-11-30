@@ -20,10 +20,6 @@ public class FlightStatusServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
  
-    public FlightStatusServlet() {
-        // TODO Auto-generated constructor stub
-    }
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
 		response.getWriter().append("Served at: ").append(request.getContextPath());
@@ -35,10 +31,8 @@ public class FlightStatusServlet extends HttpServlet {
 		int flightId = Integer.parseInt(request.getParameter("flightId"));
 		String newStatus = request.getParameter("status");
 		
-		// Update the status in db..
-		FlightDao flightDao = new FlightDao();
 		try {
-			flightDao.updateFlightStatus(flightId, newStatus);
+			FlightDao.getDao().updateFlightStatus(flightId, newStatus);
 			response.sendRedirect("flights.jsp"); // redirects to show update.. 
 		}
 		catch (SQLException | ClassNotFoundException e) {

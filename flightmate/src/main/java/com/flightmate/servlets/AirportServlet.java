@@ -1,6 +1,7 @@
 package com.flightmate.servlets;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -17,6 +18,8 @@ import com.flightmate.libs.services.SessionService;
 
 @WebServlet("/airport")
 public class AirportServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		User user = SessionService.srv.getSessionUser(req);
@@ -26,8 +29,7 @@ public class AirportServlet extends HttpServlet {
 			return;
 		}
 		
-		AirportDao dao = AirportDao.getDao();
-        List<Airport> airports = dao.getAllAirports();
+        List<Airport> airports = AirportDao.getDao().getAllAirports();
         
         req.setAttribute("airports", airports);
 		
@@ -44,6 +46,49 @@ public class AirportServlet extends HttpServlet {
 			resp.sendRedirect(Route.LOGIN);
 			return;
 		}
+
+        // Get form data
+        String airportName = req.getParameter("airportName").trim();
+        String airportCode = req.getParameter("airportCode").trim().toUpperCase();
+        String city = req.getParameter("city").trim();
+        String country = req.getParameter("country").trim();
+        String runwaysStr = req.getParameter("runways").trim();
+
+        // Validate input
+        if (airportName.isEmpty() || airportCode.isEmpty() || city.isEmpty() || 
+            country.isEmpty() || runwaysStr.isEmpty()) {
+            resp.getWriter().write("Error: All fields are required.");
+            return;
+        }
+
+        if (!airportCode.matches("[A-Z]{3}")) {
+            resp.getWriter().write("Error: Airport Code must be exactly 3 uppercase letters.");
+            return;
+        }
+
+        int runways;
+        try {
+            runways = Integer.parseInt(runwaysStr);
+            if (runways <= 0) {
+                resp.getWriter().write("Error: Number of Runways must be a positive number.");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            resp.getWriter().write("Error: Invalid number of runways.");
+            return;
+        }       
+        
+        
+     // Create an airport object
+        Airport airport = new Airport(0, airportName, airportCode, city, country, runways, LocalDateTime.now());
+        AirportDao dao = AirportDao.getDao();
+        
+        try {
+            dao.createAirport(airport);
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.getWriter().write("Error: " + e.getMessage());
+        }        
 		
 		doGet(req, resp);
 	}

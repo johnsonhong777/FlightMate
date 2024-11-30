@@ -145,12 +145,12 @@ body {
 	background: var(--bg-gradient);
 }
 
-.message_error {
+.message-error {
 	color: var(--color-error);
 	font-weight: var(--fw-semibold);
 }
 
-.message_success {
+.message-success {
 	color: var(--color-success);
 	font-weight: var(--fw-semibold);
 }

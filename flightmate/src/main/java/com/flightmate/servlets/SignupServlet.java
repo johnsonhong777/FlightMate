@@ -26,7 +26,7 @@ public class SignupServlet extends Validation {
 		User user = SessionService.srv.getSessionUser(req);
 		
 		if (user != null) {
-			resp.sendRedirect(Route.DASHBOARD);
+			resp.sendRedirect("./dashboard");
 			return;
 		}
 		
@@ -46,7 +46,7 @@ public class SignupServlet extends Validation {
 		UserDao.getDao().createUser(req);
 		User user = SessionService.srv.getSessionUser(req);
 		if (user != null) {
-			resp.sendRedirect(Route.DASHBOARD);
+			resp.sendRedirect("./dashboard");
 			return;
 		} else {
 			req.setAttribute("message", "We could not create a user at this time. Please try again later.");

@@ -11,7 +11,8 @@ public class ApplicationDao {
     public static final String USERS_TABLE = "users";
     public static final String ROLES_TABLE = "roles";
     public static final String AIRPORTS_TABLE = "airports";
-
+    public static final String AIRCRAFT_TABLE = "aircrafts";
+    
     private ApplicationDao() {}
 
     public static synchronized ApplicationDao getDao() {
@@ -142,7 +143,8 @@ public class ApplicationDao {
                         + "airport_code VARCHAR(3) NOT NULL UNIQUE, "
                         + "city VARCHAR(255) NOT NULL, "
                         + "country VARCHAR(255) NOT NULL, "
-                        + "runways INT NOT NULL);";              
+                        + "runways INT NOT NULL, "
+                        + "created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP());";              
                         
                 stmt.executeUpdate(sql);
                 System.out.println("Created airports Table");
@@ -155,6 +157,38 @@ public class ApplicationDao {
         }
     }
 
+    public void createAircraftTable() {
+        try (
+                Connection conn = DBConnection.getDBInstance();
+                Statement stmt = conn.createStatement();
+        ) {
+            if (!tableExists(conn, AIRCRAFT_TABLE)) {
+                System.out.print("Creating Aircrafts Table...");
+                String sql = "CREATE TABLE IF NOT EXISTS " + AIRCRAFT_TABLE + " ("
+                        + "aircraft_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, "
+                        + "aircraft_model VARCHAR(50) NOT NULL, "
+                        + "manufacture_date DATE NOT NULL, "
+                        + "last_maintenance_date DATE NOT NULL, "
+                        + "next_maintenance_date DATE NOT NULL, "
+                        + "aircraft_notes TEXT, "
+                        + "created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(), "
+                        + "administrator_id INT NOT NULL, "
+                        + "airport_id INT NOT NULL, "
+                        + "FOREIGN KEY (administrator_id) REFERENCES " + USERS_TABLE + "(user_id), "
+                        + "FOREIGN KEY (airport_id) REFERENCES " + AIRPORTS_TABLE + "(id));";
+                stmt.executeUpdate(sql);
+                System.out.println("Created Aircrafts Table");
+            }
+
+        } catch (SQLException e) {
+            DBUtil.processException(e);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+ 
     private static boolean dbExists(String dbName, ResultSet resultSet) throws SQLException {
         while (resultSet.next()) {
             if (resultSet.getString(1).equals(dbName)) return true;
@@ -164,5 +198,48 @@ public class ApplicationDao {
 
     public boolean tableExists(Connection conn, String tableName) throws SQLException {
         return conn.getMetaData().getTables(DB_NAME, null, tableName, new String[] {"TABLE"}).next();
+    }    
+    
+ // Sample data for developing purpose
+    
+    public void insertSampleUsers() throws SQLException, ClassNotFoundException {
+        String sql = "INSERT INTO " + USERS_TABLE + " (role_id, email_address, first_name, last_name, password) VALUES "
+                + "(1, 'pilot1@example.com', 'John', 'Doe', 'password123'), "
+                + "(2, 'admin1@example.com', 'Jane', 'Smith', 'password123');";
+        try (
+                Connection conn = DBConnection.getDBInstance();
+                Statement stmt = conn.createStatement();
+        ) {
+            stmt.executeUpdate(sql);
+            System.out.println("Sample users inserted.");
+        }
+    }
+
+    public void insertSampleAirports() throws SQLException, ClassNotFoundException {
+        String sql = "INSERT INTO " + AIRPORTS_TABLE + " (airport_code, airport_name, city, country) VALUES "
+                + "('JFK', 'John F. Kennedy International Airport', 'New York', 'USA'), "
+                + "('LHR', 'Heathrow Airport', 'London', 'UK'), "
+                + "('DXB', 'Dubai International Airport', 'Dubai', 'UAE');";
+        try (
+                Connection conn = DBConnection.getDBInstance();
+                Statement stmt = conn.createStatement();
+        ) {
+            stmt.executeUpdate(sql);
+            System.out.println("Sample airports inserted.");
+        }
+    }
+
+    public void insertSampleAircrafts() throws SQLException, ClassNotFoundException {
+        String sql = "INSERT INTO " + AIRCRAFT_TABLE + " (aircraft_model, manufacture_date, last_maintenance_date, "
+                + "next_maintenance_date, aircraft_notes, administrator_id, airport_id) VALUES "
+                + "('Boeing 747', '2000-01-01', '2024-01-01', '2025-01-01', 'Flagship aircraft.', 2, 1), "
+                + "('Airbus A380', '2010-01-01', '2023-06-15', '2024-06-15', 'Double-decker aircraft.', 2, 2);";
+        try (
+                Connection conn = DBConnection.getDBInstance();
+                Statement stmt = conn.createStatement();
+        ) {
+            stmt.executeUpdate(sql);
+            System.out.println("Sample aircrafts inserted.");
+        }
     }
 }

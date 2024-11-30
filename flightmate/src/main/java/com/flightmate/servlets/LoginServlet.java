@@ -12,9 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.flightmate.beans.User;
 import com.flightmate.dao.UserDao;
+
 import com.flightmate.libs.Route;
+
 import com.flightmate.libs.Validation;
 import com.flightmate.libs.services.SessionService;
+
 
 @WebServlet("/login")
 public class LoginServlet extends Validation {
@@ -25,7 +28,7 @@ public class LoginServlet extends Validation {
 		User user = SessionService.srv.getSessionUser(req);
 		
 		if (user != null) {
-			resp.sendRedirect(Route.DASHBOARD);
+			resp.sendRedirect("./dashboard");
 			return;
 		}
 		
@@ -47,13 +50,13 @@ public class LoginServlet extends Validation {
 		User user = SessionService.srv.getSessionUser(req);
 		
 		if (user != null) {
-			resp.sendRedirect(Route.DASHBOARD);
+			resp.sendRedirect("./dashboard");
 			return;
 		} else {
 			req.setAttribute("message", "Cannot find user with this email address. Please register for an account.");
 		}
 	}
-	
+
 	@Override
 	protected String validateForm(Map<String,String[]> params) {
 		Iterator<Entry<String, String[]>> iterator = params.entrySet().iterator();

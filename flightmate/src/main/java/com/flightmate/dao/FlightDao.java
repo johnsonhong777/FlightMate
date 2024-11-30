@@ -5,6 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class FlightDao {
+	private static FlightDao dao;
+	
+	private FlightDao() {}
+	
+	public static synchronized FlightDao getDao() {
+		if (dao == null) dao = new FlightDao();
+		return dao;
+	}
+	
     public void updateFlightStatus(int flightId, String newStatus) throws SQLException, ClassNotFoundException {
         String query = "UPDATE flights SET status = ? WHERE id = ?";
         try (Connection conn = DBConnection.getDBInstance();
@@ -12,22 +21,12 @@ public class FlightDao {
             stmt.setString(1, newStatus);
             stmt.setInt(2, flightId);
             stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     
-    public class UpdateFlightStatus {
-        public static void main(String[] args) {
-            FlightDao flightDao = new FlightDao();
-
-            try {
-                int flightId = 1; 
-                String newStatus = "Departed"; 
-
-                flightDao.updateFlightStatus(flightId, newStatus);
-                System.out.println("Flight status updated successfully!");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
+    public void getAllFlights() {
+		// TODO Auto-generated method stub
+	}
 }

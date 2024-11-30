@@ -31,7 +31,7 @@ public class UpdateDeleteAirportServlet extends HttpServlet {
             String country = request.getParameter("country");
             int runways = Integer.parseInt(request.getParameter("runways"));
 
-            Airport airport = new Airport(id, name, code, city, country, runways);
+            Airport airport = new Airport(id, name, code, city, country, runways, null);
             try {
                 dao.updateAirport(airport);
             } catch (Exception e) {
@@ -47,6 +47,6 @@ public class UpdateDeleteAirportServlet extends HttpServlet {
             }
         }
 
-        response.sendRedirect("listAirports.jsp");
+        response.sendRedirect("./airport");
     }
 }
