@@ -20,7 +20,7 @@ import com.flightmate.libs.DBType;
 
 public class DBUtil {
 	private static final String USERNAME = "root";
-	private static final String PASSWORD = "root";
+	private static final String PASSWORD = "";
 	private static String M_CONN_STRING = "jdbc:mysql://localhost/";
 
 	public static Connection getConnection(DBType dbType) throws SQLException, ClassNotFoundException {
