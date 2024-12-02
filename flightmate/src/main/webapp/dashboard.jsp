@@ -145,6 +145,38 @@
             </form>
         </c:if>
 
+        <c:if test="${sessionScope.user.role == 'ADMINISTRATOR'}">
+            <h2>Pending Flight Hour Approvals</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Pilot Name</th>
+                        <th>Flight Date</th>
+                        <th>Hours</th>
+                        <th>Notes</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="hour" items="${pendingFlightHours}">
+                        <tr>
+                            <td>${hour.pilotName}</td>
+                            <td>${hour.flightDate}</td>
+                            <td>${hour.hoursFlighted}</td>
+                            <td>${hour.notes}</td>
+                            <td>
+                                <form action="approveFlightHours" method="post">
+                                    <input type="hidden" name="id" value="${hour.id}" />
+                                    <button type="submit" name="action" value="approve">Approve</button>
+                                    <button type="submit" name="action" value="reject">Reject</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </c:if>
+
 		<c:if test="${user.getRole().equals(roles['ADMINISTRATOR'])}">
 			<h2>User Management</h2>
             <table class="dashboard-table w-full border-2 rounded">

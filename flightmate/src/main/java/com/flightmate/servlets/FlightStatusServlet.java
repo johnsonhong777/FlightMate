@@ -26,20 +26,20 @@ public class FlightStatusServlet extends HttpServlet {
 	
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// Get flight ID and status from request.. 
-		int flightId = Integer.parseInt(request.getParameter("flightId"));
-		String newStatus = request.getParameter("status");
-		
-		try {
-			FlightDao.getDao().updateFlightStatus(flightId, newStatus);
-			response.sendRedirect("flights.jsp"); // redirects to show update.. 
-		}
-		catch (SQLException | ClassNotFoundException e) {
-		    e.printStackTrace();
-		    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Flight status could not be updated");
-		}
-
-	}
+//	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//		// Get flight ID and status from request.. 
+//		int flightId = Integer.parseInt(request.getParameter("flightId"));
+//		String newStatus = request.getParameter("status");
+//		
+//		try {
+//			FlightDao.getDao().updateFlightStatus(flightId, newStatus);
+//			response.sendRedirect("flights.jsp"); // redirects to show update.. 
+//		}
+//		catch (SQLException | ClassNotFoundException e) {
+//		    e.printStackTrace();
+//		    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Flight status could not be updated");
+//		}
+//
+//	}
 
 }
