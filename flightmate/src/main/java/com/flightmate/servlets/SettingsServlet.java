@@ -77,7 +77,7 @@ public class SettingsServlet extends Validation {
 				user.setLastName(lastName);
 				user.setEmail(email);
 				
-				updated = UserDao.getDao().updateUser(firstName, lastName, email, user.getUserId());
+				updated = UserDao.getDao().updateUser(firstName, lastName, email, null, user.getUserId());
 				if (updated) {
 					req.setAttribute("success", "Profile updated.");
 				}

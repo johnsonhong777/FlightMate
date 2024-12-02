@@ -33,7 +33,7 @@ public class FlightStatusServlet extends HttpServlet {
 		
 		try {
 			FlightDao.getDao().updateFlightStatus(flightId, newStatus);
-			response.sendRedirect("flights.jsp"); // redirects to show update.. 
+			response.sendRedirect("flight-management.jsp"); // redirects to show update.. 
 		}
 		catch (SQLException | ClassNotFoundException e) {
 		    e.printStackTrace();

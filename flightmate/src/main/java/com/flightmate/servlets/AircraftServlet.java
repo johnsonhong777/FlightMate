@@ -60,7 +60,6 @@ public class AircraftServlet extends HttpServlet {
         int administratorId = Integer.parseInt(req.getParameter("administratorId"));
         int airportId = Integer.parseInt(req.getParameter("airportId"));
 
-
         Aircraft aircraft = new AircraftBuilder()
                 .setAircraftModel(aircraftModel)
                 .setManufactureDate(manufactureDate)
@@ -76,11 +75,13 @@ public class AircraftServlet extends HttpServlet {
         boolean success = AircraftDao.addAircraft(aircraft);
 
         if (success) {
-            req.setAttribute("success", "Aircraft added successfully!");
+            req.getSession().setAttribute("success", "Aircraft added successfully!");  // Use session to store success message
         } else {
-            req.setAttribute("error", "Failed to add aircraft.");
+            req.getSession().setAttribute("error", "Failed to add aircraft.");
         }
 
-        doGet(req, resp);
+        // Redirect to avoid form resubmission and display the message only after submission
+        resp.sendRedirect(Route.AIRCRAFT);  // Redirect to prevent the message from showing before submission
     }
+
 }

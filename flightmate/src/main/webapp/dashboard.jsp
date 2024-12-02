@@ -17,49 +17,55 @@
                 <li><a href="airport" class="btn">See Airports</a></li>
                 <c:if test="${user.getRole().toString() == 'ADMINISTRATOR'}">
                     <li><a href="aircraft" class="btn">Add New Aircraft</a></li>
-                    <li><a href="flight" class="btn">Manage Flights</a></li>
+                    <li><a href="flight-management" class="btn">Manage Flights</a></li>
                 </c:if>
             </ul>
         </header>
-        <section class="container mt-2">
-            <h1 class="subtitle">Dashboard</h1>
+        
+      <section class="container mt-2">
+            <h1 class="subtitle">Admin Dashboard</h1>
             <p>Hello ${user.getFirstName()}</p>
             <p>Your role: ${user.getRole()}</p>
+
+   
         </section>
-        <c:if test="${user.getRole().toString() == 'ADMINISTRATOR'}">
-            <h2>User Management</h2>
-            <table class="dashboard-table w-full border-2 rounded">
-                <thead>
-                    <tr>
-                        <th>User ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="user" items="${users}">
-                    <tr>
-                        <td>${user.userId}</td>
-                        <td>${user.firstName} ${user.lastName}</td>
-                        <td>${user.email}</td>
-                        <td>${user.role}</td>
-                        <td>
-                            <div class="flex">
-                                <a href="dashboard?action=edit&id=${user.userId}" class="btn">Edit</a>
-                                <a href="dashboard?action=delete&id=${user.userId}" class="btn error"
-                                   onclick="return confirm('Are you sure you want to delete this user?');">
-                                    Delete
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </c:if>
+            
+         <section class="container mt-2">
+         
+            <c:if test="${user.getRole().toString() == 'ADMINISTRATOR'}">
+                <h2 class="section-title">User Management</h2>
+                <table class="temptable w-full">
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="user" items="${users}">
+                            <tr>
+                                <td>${user.userId}</td>
+                                <td>${user.firstName} ${user.lastName}</td>
+                                <td>${user.email}</td>
+                                <td>${user.role}</td>
+                                <td>
+                                    <div class="flex">
+                                        <a href="dashboard?action=edit&id=${user.userId}" class="btn">Edit</a>
+                                        <a href="dashboard?action=delete&id=${user.userId}" class="btn error"
+                                           onclick="return confirm('Are you sure you want to delete this user?');">
+                                            Delete
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </c:if>
+        </section>
     </main>
 </body>
 </html>
-

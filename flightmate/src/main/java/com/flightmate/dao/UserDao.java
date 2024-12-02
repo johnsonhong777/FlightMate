@@ -24,7 +24,7 @@ public class UserDao {
 	public static final String LAST_NAME = "last_name";
 	private final String PASSWORD = "password";
 	private final String UPDATED_AT = "updated_at";
-	private final static String ROLE = "role_id";
+	private final static String ROLE_ID = "role_id";
 	
 	private UserDao() {}
 	
@@ -40,7 +40,7 @@ public class UserDao {
 		String password = req.getParameter("password");
 		int roleId = Role.toRoleId(req.getParameter("role"));
 		
-		String sql = "INSERT INTO "+ApplicationDao.USERS_TABLE+" ("+EMAIL_ADDRESS+","+FIRST_NAME+","+LAST_NAME+","+ROLE+","+PASSWORD+") VALUES (?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO "+ApplicationDao.USERS_TABLE+" ("+EMAIL_ADDRESS+","+FIRST_NAME+","+LAST_NAME+","+ROLE_ID+","+PASSWORD+") VALUES (?, ?, ?, ?, ?)";
 		
 		try (
 				Connection conn = DBConnection.getDBInstance();
@@ -84,7 +84,7 @@ public class UserDao {
 	    String updateSQL = "UPDATE " + ApplicationDao.USERS_TABLE + " SET "
 	                     + FIRST_NAME + " = ?, "
 	                     + LAST_NAME + " = ?, "
-	                     + ROLE + " = ?, " // Save role_id (1-based)
+	                     + ROLE_ID + " = ?, " // Save role_id (1-based)
 	                     + EMAIL_ADDRESS + " = ?, "
 	                     + UPDATED_AT + " = CURRENT_TIMESTAMP() "
 	                     + "WHERE " + USER_ID + " = ?";
@@ -153,7 +153,7 @@ public class UserDao {
 	
 	public User getUserById(int userId) {
 		User user = null;
-		String sql = "SELECT "+USER_ID+", "+EMAIL_ADDRESS+", "+FIRST_NAME+", "+LAST_NAME+", "+ROLE+" FROM " +ApplicationDao.USERS_TABLE+" WHERE " + USER_ID + " = ?";
+		String sql = "SELECT "+USER_ID+", "+EMAIL_ADDRESS+", "+FIRST_NAME+", "+LAST_NAME+", "+ROLE_ID+" FROM " +ApplicationDao.USERS_TABLE+" WHERE " + USER_ID + " = ?";
 		try (
 				Connection conn = DBConnection.getDBInstance();
 				PreparedStatement stmt = conn.prepareStatement(sql);
@@ -167,7 +167,7 @@ public class UserDao {
 						.setEmail(rs.getString(EMAIL_ADDRESS))
 						.setFirstName(rs.getString(FIRST_NAME))
 						.setLastName(rs.getString(LAST_NAME))
-						.setRoleId(rs.getInt(ROLE))
+						.setRoleId(rs.getInt(ROLE_ID))
 						.create();
 				}
 						
@@ -185,7 +185,7 @@ public class UserDao {
 		String email = req.getParameter("email");
 		String password = req.getParameter("password");
 		
-		String sql = "SELECT "+USER_ID+", "+FIRST_NAME+", "+LAST_NAME+", "+ROLE+" FROM "+ApplicationDao.USERS_TABLE+" WHERE "+EMAIL_ADDRESS+" = ? AND "+PASSWORD+" = ?";
+		String sql = "SELECT "+USER_ID+", "+FIRST_NAME+", "+LAST_NAME+", "+ROLE_ID+" FROM "+ApplicationDao.USERS_TABLE+" WHERE "+EMAIL_ADDRESS+" = ? AND "+PASSWORD+" = ?";
 		
 		try (
 				Connection conn = DBConnection.getDBInstance();
@@ -203,7 +203,7 @@ public class UserDao {
 						.setEmail(email)
 						.setFirstName(rs.getString(FIRST_NAME))
 						.setLastName(rs.getString(LAST_NAME))
-						.setRoleId(rs.getInt(ROLE))
+						.setRoleId(rs.getInt(ROLE_ID))
 						.create();
 				
 				SessionService.srv.setSessionUser(req, user);
@@ -276,7 +276,7 @@ public class UserDao {
 
 	public List<User> getAllUsers() {
 		    List<User> users = new ArrayList<>();
-		    String sql = "SELECT " + USER_ID + ", " + EMAIL_ADDRESS + ", " + FIRST_NAME + ", " + LAST_NAME + ", " + ROLE + " FROM " + ApplicationDao.USERS_TABLE;
+		    String sql = "SELECT " + USER_ID + ", " + EMAIL_ADDRESS + ", " + FIRST_NAME + ", " + LAST_NAME + ", " + ROLE_ID + " FROM " + ApplicationDao.USERS_TABLE;
 		    
 		    try (
 		        Connection conn = DBConnection.getDBInstance();
@@ -289,7 +289,7 @@ public class UserDao {
 		                .setEmail(rs.getString(EMAIL_ADDRESS))
 		                .setFirstName(rs.getString(FIRST_NAME))
 		                .setLastName(rs.getString(LAST_NAME))
-		                .setRoleId(rs.getInt(ROLE))
+		                .setRoleId(rs.getInt(ROLE_ID))
 		                .create();
 		            users.add(user);
 		        }
@@ -333,7 +333,7 @@ public class UserDao {
                     rs.getString(EMAIL_ADDRESS),
                     rs.getString(FIRST_NAME),
                     rs.getString(LAST_NAME),
-                    rs.getInt(ROLE) 
+                    rs.getInt(ROLE_ID) 
                 ));
             }
         } catch (Exception e) {
@@ -342,6 +342,31 @@ public class UserDao {
         return administrators;
     }
 
+    public List<User> getAllPilots() {
+        List<User> pilots = new ArrayList<>();
+        String sql = "SELECT user_id, first_name, last_name, email_address, role_id FROM users WHERE role_id = 1";
+
+        try (Connection conn = DBConnection.getDBInstance();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                pilots.add(new User(
+                    rs.getInt("user_id"),
+                    rs.getString("email_address"),
+                    rs.getString("first_name"),
+                    rs.getString("last_name"),
+                    rs.getInt("role_id")
+                ));
+            }
+        } catch (SQLException e) {
+            DBUtil.processException(e);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return pilots;
+    }
 
 	
 }

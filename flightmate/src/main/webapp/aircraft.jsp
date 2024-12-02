@@ -15,14 +15,18 @@
    <main>
         <div class="container mx-auto mt-8 w-72 rounded border-1 bg-white">
             <h1 class="center">Add New Aircraft</h1>
-            
-            <c:if test="${not empty success}">
-                <div class="alert success center">${success}</div>
+         <c:if test="${not empty sessionScope.success}">
+                <div class="alert success center">${sessionScope.success}</div>
+                <c:set var="success" value="${sessionScope.success}" />
+                <c:remove var="success" scope="session" />
             </c:if>
-            <c:if test="${not empty error}">
-                <div class="alert error center">${error}</div>
+
+            <!-- Error message -->
+            <c:if test="${not empty sessionScope.error}">
+                <div class="alert error center">${sessionScope.error}</div>
+                <c:set var="error" value="${sessionScope.error}" />
+                <c:remove var="error" scope="session" />
             </c:if>
-            
             <form action="${pageContext.request.contextPath}/aircraft" method="post" class="my-2">
                 <div class="form-group space-evenly">
                     <label for="aircraftModel" class="form-label">Aircraft Model:</label>
