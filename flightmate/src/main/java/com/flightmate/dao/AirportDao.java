@@ -7,7 +7,9 @@ import java.sql.SQLException;
 
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.flightmate.beans.Airport;
 
@@ -215,5 +217,26 @@ public class AirportDao {
 			
 		}
 		return Airport;
-	}	
+	}
+
+	public Map<String, Long> getAirportCountByCity() {
+		Map<String, Long> cityAirportCountMap = new HashMap<>();
+		String sql = "SELECT city, COUNT(*) AS airport_count FROM airports GROUP BY city";
+
+		try (Connection conn = DBConnection.getDBInstance();
+			 PreparedStatement stmt = conn.prepareStatement(sql);
+			 ResultSet rs = stmt.executeQuery()) {
+
+			while (rs.next()) {
+				String city = rs.getString("city");
+				long count = rs.getLong("airport_count");
+				cityAirportCountMap.put(city, count);
+			}
+
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		return cityAirportCountMap;
+	}
 }

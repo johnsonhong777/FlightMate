@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.flightmate.beans.User;
+import com.flightmate.dao.FlightDao;
 import com.flightmate.dao.UserDao;
 import com.flightmate.libs.Role;
 import com.flightmate.libs.Route;
@@ -47,7 +48,7 @@ public class DashboardServlet extends HttpServlet {
         }
         
 		req.setAttribute("users", UserDao.getDao().getAllUsers()); 
-//      req.setAttribute("flights", FlightDao.getDao().getAllFlights()); 
+        req.setAttribute("flights", FlightDao.getDao().getAllFlights());
 						
 		req.getRequestDispatcher(Route.DASHBOARD).forward(req, resp);
 	}
