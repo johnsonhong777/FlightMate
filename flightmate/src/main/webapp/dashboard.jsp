@@ -130,6 +130,21 @@
                 </div>
             </c:if>
 		</section>
+
+        <%-- Only display the form for pilots --%>
+        <c:if test="${sessionScope.user.role == 'PILOT'}">
+            <h2>Log Flight Hours</h2>
+            <form action="logFlightHours" method="post">
+                <label for="flight_date">Flight Date:</label>
+                <input type="date" id="flight_date" name="flight_date" required>
+                <label for="hours_flighted">Hours Flown:</label>
+                <input type="number" id="hours_flighted" name="hours_flighted" step="0.01" required>
+                <label for="notes">Notes (optional):</label>
+                <textarea id="notes" name="notes"></textarea>
+                <button type="submit">Log Flight Hours</button>
+            </form>
+        </c:if>
+
 		<c:if test="${user.getRole().equals(roles['ADMINISTRATOR'])}">
 			<h2>User Management</h2>
             <table class="dashboard-table w-full border-2 rounded">

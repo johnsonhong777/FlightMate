@@ -100,6 +100,23 @@ public class ApplicationDao {
         }
     }
     
+    public void createPilotHoursTable() {
+        String sql = "CREATE TABLE IF NOT EXISTS pilot_hours ("
+                   + "id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, "
+                   + "pilot_id INT NOT NULL, "
+                   + "flight_date DATE NOT NULL, "
+                   + "hours_flighted DECIMAL(5,2) NOT NULL, "
+                   + "notes TEXT, "
+                   + "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, "
+                   + "FOREIGN KEY (pilot_id) REFERENCES users(user_id));";
+        try (Connection conn = DBConnection.getDBInstance();
+             Statement stmt = conn.createStatement()) {
+            stmt.executeUpdate(sql);
+            System.out.println("Created Pilot Hours Table");
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void createUserTable() {
         try (
@@ -242,4 +259,6 @@ public class ApplicationDao {
             System.out.println("Sample aircrafts inserted.");
         }
     }
+    
+  
 }
