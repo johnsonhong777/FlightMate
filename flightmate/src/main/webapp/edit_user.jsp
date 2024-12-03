@@ -26,15 +26,14 @@
     <label for="email_address">Email Address:</label>
     <input type="email" id="email_address" name="email_address" value="${user.email}" required />
 
-    <label for="role_id">Role:</label>
+<label for="role_id">Role:</label>
 <select id="role_id" name="role_id">
     <c:forEach var="role" items="${roles}">
-        <option value="${role.roleId}" <c:if test="${role.roleId == user.roleId}">selected</c:if>>
-            ${role.roleKey}
+        <option value="${role.toInt()}" <c:if test="${role.toInt() == user.role.toInt()}">selected</c:if>>
+            ${role.toString()}
         </option>
     </c:forEach>
 </select>
-
 
 
 

@@ -105,6 +105,66 @@ main {
     vertical-align: top;
 }
 
+/* ****************** */
+/* Dashboard Table    */
+/* ****************** */
+
+ .dashboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        .dashboard-table th, .dashboard-table td {
+            padding: 12px 15px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .dashboard-table thead {
+            background-color: #007BFF;
+            color: white;
+            font-weight: bold;
+        }
+
+        .dashboard-table th {
+            text-transform: uppercase;
+        }
+
+        .dashboard-table tbody tr {
+            border-bottom: 1px solid #ddd;
+        }
+
+        .dashboard-table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dashboard-table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .dashboard-table tbody tr:nth-child(odd) {
+            background-color: #fff;
+        }
+
+        .dashboard-table td {
+            color: #333;
+        }
+
+        @media screen and (max-width: 768px) {
+            .dashboard-table th, .dashboard-table td {
+                padding: 10px;
+            }
+
+            .dashboard-table th {
+                font-size: 12px;
+            }
+
+            .dashboard-table td {
+                font-size: 12px;
+            }
+        }
 
 /* ****************** */
 /* Card Section       */

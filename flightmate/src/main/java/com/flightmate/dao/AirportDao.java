@@ -97,7 +97,7 @@ public class AirportDao {
 	}
     
 	   // Get All Airports
-    public static List<Airport> getAllAirports() {
+    public List<Airport> getAllAirports() {
         List<Airport> airports = new ArrayList<>();
         String sql = "SELECT * FROM Airports";
         try (Connection conn = DBConnection.getDBInstance();

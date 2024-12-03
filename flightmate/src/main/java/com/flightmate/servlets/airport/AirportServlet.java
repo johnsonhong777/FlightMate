@@ -1,4 +1,4 @@
-package com.flightmate.servlets;
+package com.flightmate.servlets.airport;
 
 import java.io.IOException;
 import java.time.LocalDateTime;

@@ -3,15 +3,40 @@ package com.flightmate.beans;
 import java.time.LocalDateTime;
 
 public class Flight {
-
+    private int flightId;
     private String flightNumber;
-    private LocalDateTime departureTime;
-    private LocalDateTime arrivalTime;
     private String origin;
     private String destination;
     private String status;
+    private LocalDateTime departureTime; 
+    private LocalDateTime arrivalTime;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    // Full constructor for FlightBuilder
+    public Flight(int flightId, String flightNumber, String origin, String destination, String status,
+                  LocalDateTime departureTime, LocalDateTime arrivalTime, LocalDateTime createdAt) {
+        this.flightId = flightId;
+        this.flightNumber = flightNumber;
+        this.origin = origin;
+        this.destination = destination;
+        this.status = status;
+        this.departureTime = departureTime;
+        this.arrivalTime = arrivalTime;
+        this.createdAt = createdAt;
+    }
+
+    // Default constructor for flexibility
+    public Flight() {}
+
+    // Getters and setters
+    public int getFlightId() {
+        return flightId;
+    }
+
+    public void setFlightId(int flightId) {
+        this.flightId = flightId;
+    }
 
     public String getFlightNumber() {
         return flightNumber;
@@ -19,22 +44,6 @@ public class Flight {
 
     public void setFlightNumber(String flightNumber) {
         this.flightNumber = flightNumber;
-    }
-
-    public LocalDateTime getDepartureTime() {
-        return departureTime;
-    }
-
-    public void setDepartureTime(LocalDateTime departureTime) {
-        this.departureTime = departureTime;
-    }
-
-    public LocalDateTime getArrivalTime() {
-        return arrivalTime;
-    }
-
-    public void setArrivalTime(LocalDateTime arrivalTime) {
-        this.arrivalTime = arrivalTime;
     }
 
     public String getOrigin() {
@@ -59,6 +68,22 @@ public class Flight {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public LocalDateTime getDepartureTime() {
+        return departureTime;
+    }
+
+    public void setDepartureTime(LocalDateTime departureTime) {
+        this.departureTime = departureTime;
+    }
+
+    public LocalDateTime getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setArrivalTime(LocalDateTime arrivalTime) {
+        this.arrivalTime = arrivalTime;
     }
 
     public LocalDateTime getCreatedAt() {

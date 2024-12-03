@@ -11,7 +11,6 @@ import com.flightmate.dao.PilotHoursDao;
 import com.flightmate.libs.Role; 
 import com.flightmate.libs.Route; 
 import com.flightmate.libs.services.SessionService;
-import java.sql.SQLException;
 
 /**
  * Servlet implementation class PilotHourEntryServlet

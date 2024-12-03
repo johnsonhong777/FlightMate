@@ -76,34 +76,55 @@ public class UserDao {
 		}
 	}
 	
-	public boolean updateUser(String firstName, String lastName, String email,  int userId) {
-		boolean updated = false;
-		String sql = "UPDATE "+ApplicationDao.USERS_TABLE+" SET "
-				+FIRST_NAME+" = ?, "
-				+LAST_NAME+" = ?, "
-				+EMAIL_ADDRESS+" = ?, "
-				+UPDATED_AT+" = CURRENT_TIMESTAMP()"
-				+ " WHERE "+USER_ID+" = ?";
-		
-		try (
-				Connection conn = DBConnection.getDBInstance();
-				PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			) {
-    		stmt.setString(1, firstName);
-    		stmt.setString(2, lastName);
-    		stmt.setString(3, email);
-    		stmt.setInt(4, userId);
-    		
-    		updated = stmt.executeUpdate() > 0;
-			
-		} catch (SQLException e) {
-			DBUtil.processException(e);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		
-		return updated;
+	public boolean updateUser(String firstName, String lastName, String email, Role role, int userId) {
+	    boolean updated = false;
+
+	    String checkEmailSQL = "SELECT COUNT(*) FROM " + ApplicationDao.USERS_TABLE 
+	                         + " WHERE " + EMAIL_ADDRESS + " = ? AND " + USER_ID + " != ?";
+	    String updateSQL = "UPDATE " + ApplicationDao.USERS_TABLE + " SET "
+	                     + FIRST_NAME + " = ?, "
+	                     + LAST_NAME + " = ?, "
+	                     + ROLE_ID + " = ?, " // Save role_id (1-based)
+	                     + EMAIL_ADDRESS + " = ?, "
+	                     + UPDATED_AT + " = CURRENT_TIMESTAMP() "
+	                     + "WHERE " + USER_ID + " = ?";
+
+	    try (Connection conn = DBConnection.getDBInstance();
+	         PreparedStatement checkStmt = conn.prepareStatement(checkEmailSQL);
+	         PreparedStatement updateStmt = conn.prepareStatement(updateSQL)) {
+
+	        // Check for duplicate email
+	        checkStmt.setString(1, email);
+	        checkStmt.setInt(2, userId);
+	        try (ResultSet rs = checkStmt.executeQuery()) {
+	            if (rs.next() && rs.getInt(1) > 0) {
+	                throw new SQLException("Duplicate email address: " + email);
+	            }
+	        }
+
+	        // Convert Role enum to 1-based role_id for database
+	        int roleId = role.ordinal() + 1;
+
+	        // Proceed with the update
+	        updateStmt.setString(1, firstName);
+	        updateStmt.setString(2, lastName);
+	        updateStmt.setInt(3, roleId); // Save role_id in database
+	        updateStmt.setString(4, email);
+	        updateStmt.setInt(5, userId);
+
+	        updated = updateStmt.executeUpdate() > 0;
+
+	    } catch (SQLException e) {
+	        DBUtil.processException(e); // Log SQL error details
+	    } catch (ClassNotFoundException e) {
+	        e.printStackTrace();
+	    }
+
+	    return updated;
 	}
+
+
+
 	
 	public boolean updatePassword(int userId, String newPass) {
 		boolean updated = false;
@@ -321,6 +342,31 @@ public class UserDao {
         return administrators;
     }
 
+    public List<User> getAllPilots() {
+        List<User> pilots = new ArrayList<>();
+        String sql = "SELECT user_id, first_name, last_name, email_address, role_id FROM users WHERE role_id = 1";
+
+        try (Connection conn = DBConnection.getDBInstance();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                pilots.add(new User(
+                    rs.getInt("user_id"),
+                    rs.getString("email_address"),
+                    rs.getString("first_name"),
+                    rs.getString("last_name"),
+                    rs.getInt("role_id")
+                ));
+            }
+        } catch (SQLException e) {
+            DBUtil.processException(e);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return pilots;
+    }
 
 	
 }

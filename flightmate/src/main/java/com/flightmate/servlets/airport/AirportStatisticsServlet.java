@@ -1,4 +1,4 @@
-package com.flightmate.servlets;
+package com.flightmate.servlets.airport;
 
 import com.flightmate.dao.AirportDao;
 import com.google.gson.Gson;

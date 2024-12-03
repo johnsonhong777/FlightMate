@@ -1,13 +1,9 @@
 package com.flightmate.dao;
 
 import com.flightmate.beans.Aircraft;
-import com.flightmate.beans.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AircraftDao {
 	private static AircraftDao dao;

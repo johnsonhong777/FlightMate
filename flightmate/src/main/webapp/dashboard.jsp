@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,98 +10,35 @@
         <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
     </c:if>
 	<title>FlightMate | Dashboard</title>
-    <style>
-        .container {
-            display: inline-block;
-            width: 100%;
-            box-shadow:unset !important;
-        }
-<c:if test="${user.getRole().equals(roles['PILOT'])}">
-        .dashboard-table {
-            width: 100%;
-            border-collapse: collapse;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            background-color: #fff;
-        }
-
-        .dashboard-table th, .dashboard-table td {
-            padding: 12px 15px;
-            text-align: left;
-            font-size: 14px;
-        }
-
-        .dashboard-table thead {
-            background-color: #007BFF;
-            color: white;
-            font-weight: bold;
-        }
-
-        .dashboard-table th {
-            text-transform: uppercase;
-        }
-
-        .dashboard-table tbody tr {
-            border-bottom: 1px solid #ddd;
-        }
-
-        .dashboard-table tbody tr:hover {
-            background-color: #f1f1f1;
-        }
-
-        .dashboard-table tbody tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        .dashboard-table tbody tr:nth-child(odd) {
-            background-color: #fff;
-        }
-
-        .dashboard-table td {
-            color: #333;
-        }
-
-        @media screen and (max-width: 768px) {
-            .dashboard-table th, .dashboard-table td {
-                padding: 10px;
-            }
-
-            .dashboard-table th {
-                font-size: 12px;
-            }
-
-            .dashboard-table td {
-                font-size: 12px;
-            }
-        }
-</c:if>
-    </style>
 </head>
 <body class="background">
-	<jsp:include page='./components/header.jsp' />
-	<main>
-		<header class="mb-2">
-			<ul class="main-header">
-		        <li><a href="upload" class="btn">Upload Documents</a></li>
-		        <li><a href="feedback" class="btn">Submit Feedback</a></li>
-		        <li><a href="airport" class="btn">See Airports</a></li>
-		        <c:if test="${user.getRole().equals(roles['ADMINISTRATOR'])}">
-			        <li><a href="aircraft" class="btn">Add New Aircraft</a></li>
-			        <li><a href="flight" class="btn">Manage Flights</a></li>
-		        </c:if>
-	   		</ul>
-		</header>
+    <jsp:include page='./components/header.jsp' />
+    <main>
+        <header class="mb-2">
+            <ul class="main-header">
+                <li><a href="upload" class="btn">Upload Documents</a></li>
+                <li><a href="feedback" class="btn">Submit Feedback</a></li>
+                <li><a href="airport" class="btn">See Airports</a></li>
+                <c:if test="${user.getRole().toString() == 'ADMINISTRATOR'}">
+                    <li><a href="aircraft" class="btn">Add New Aircraft</a></li>
+                    <li><a href="flight" class="btn">Manage Flights</a></li>
+                </c:if>
+            </ul>
+        </header>
+                                   
 		<section class="container mt-2">		
 			<h1 class="subtitle">Dashboard</h1>
 			<p>Hello ${user.getFirstName()}</p>
 			<p>Your role: ${user.getRole()}</p>
             <c:if test="${user.getRole().equals(roles['PILOT'])}">
                 <div id="aa">&nbsp;</div>
-                <div class="container">
+                <div>
+                	<h2 class="section-title">Flight Statistics</h2>
                     <div id="flightPieChart" style="width:50%; height: 400px;float:left"></div>
                     <div id="airportChart" style="width:50%; height: 400px;float:right"></div>
                 </div>
                 <div class="flightTableData">
-                    <h2>Flight</h2>
+                    <h2>Flights</h2>
                     <table class="dashboard-table w-full border-2 rounded">
                         <thead>
                         <tr>
@@ -132,7 +68,7 @@
 		</section>
 
         <%-- Only display the form for pilots --%>
-        <c:if test="${sessionScope.user.role == 'PILOT'}">
+        <c:if test="${user.getRole().equals(roles['PILOT'])}">
             <h2>Log Flight Hours</h2>
             <form action="logFlightHours" method="post">
                 <label for="flight_date">Flight Date:</label>
@@ -145,7 +81,7 @@
             </form>
         </c:if>
 
-        <c:if test="${sessionScope.user.role == 'ADMINISTRATOR'}">
+        <c:if test="${user.getRole().equals(roles['ADMINISTRATOR'])}">
             <h2>Pending Flight Hour Approvals</h2>
             <table>
                 <thead>
@@ -178,7 +114,7 @@
         </c:if>
 
 		<c:if test="${user.getRole().equals(roles['ADMINISTRATOR'])}">
-			<h2>User Management</h2>
+			<h2 class="section-title">User Management</h2>
             <table class="dashboard-table w-full border-2 rounded">
                 <thead>
                     <tr>
@@ -191,28 +127,27 @@
                 </thead>
                 <tbody>
                 <c:forEach var="user" items="${users}">
-                        <tr>
-                            <td>${user.userId}</td>
-                            <td>${user.firstName} ${user.lastName}</td>
-                            <td>${user.email}</td>
-                            <td>${user.role}</td>
-                            <td>
-                                <div class=" flex">
-                                    <a href="dashboard?action=edit&id=${user.userId}" class="btn">Edit</a>
-                                    <a href="dashboard?action=delete&id=${user.userId}" class="btn error"
-                                        onclick="return confirm('Are you sure you want to delete this user?');">
-                                        Delete
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                    </c:forEach>
+	                <tr>
+	                    <td>${user.userId}</td>
+	                    <td>${user.firstName} ${user.lastName}</td>
+	                    <td>${user.email}</td>
+	                    <td>${user.role}</td>
+	                    <td>
+	                        <div class="flex">
+	                            <a href="dashboard?action=edit&id=${user.userId}" class="btn">Edit</a>
+	                            <a href="dashboard?action=delete&id=${user.userId}" class="btn error"
+	                               onclick="return confirm('Are you sure you want to delete this user?');">
+	                                Delete
+	                            </a>
+	                        </div>
+	                    </td>
+	                </tr>
+                </c:forEach>
                 </tbody>
-            </table>
+           </table>
         </c:if>
-	</main>
-</body>
-<c:if test="${user.getRole().equals(roles['PILOT'])}">
+    </main>
+    <c:if test="${user.getRole().equals(roles['PILOT'])}">
     <script>
         $(document).ready(function () {
             loadFlightData();
@@ -315,4 +250,5 @@
         }
     </script>
 </c:if>
+</body>
 </html>
