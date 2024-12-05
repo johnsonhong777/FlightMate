@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.flightmate.beans.Airport;
 import com.flightmate.beans.User;
 import com.flightmate.dao.AirportDao;
+import com.flightmate.libs.Role;
 import com.flightmate.libs.Route;
 import com.flightmate.libs.services.SessionService;
 
@@ -27,6 +28,10 @@ public class AirportServlet extends HttpServlet {
 		if (user == null) {
 			resp.sendRedirect(Route.LOGIN);
 			return;
+		}
+		
+		if (user.getRole().equals(Role.PILOT)) {
+			req.setAttribute("disabledInput", "disabled");
 		}
 		
         List<Airport> airports = AirportDao.getDao().getAllAirports();

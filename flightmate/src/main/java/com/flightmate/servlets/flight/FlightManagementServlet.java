@@ -1,4 +1,4 @@
-package com.flightmate.servlets;
+package com.flightmate.servlets.flight;
 
 import com.flightmate.beans.Flight;
 import com.flightmate.dao.FlightDao;

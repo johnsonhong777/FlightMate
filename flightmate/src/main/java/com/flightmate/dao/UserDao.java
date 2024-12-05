@@ -24,7 +24,7 @@ public class UserDao {
 	public static final String LAST_NAME = "last_name";
 	private final String PASSWORD = "password";
 	private final String UPDATED_AT = "updated_at";
-	private final static String ROLE_ID = "role_id";
+	public final static String ROLE_ID = "role_id";
 	
 	private UserDao() {}
 	

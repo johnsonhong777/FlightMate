@@ -21,6 +21,7 @@ public class DBConnection {
 		ApplicationDao.getDao().createAirportTable();
 		ApplicationDao.getDao().createFlightsTable();
 		ApplicationDao.getDao().createAircraftTable();
+		ApplicationDao.getDao().createFeedbackTable();
 
 	}	
 	

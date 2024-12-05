@@ -1,4 +1,4 @@
-package com.flightmate.servlets;
+package com.flightmate.servlets.pages;
 
 import java.io.IOException;
 

@@ -9,6 +9,7 @@ public class Route {
 	public static String AIRCRAFT = "aircraft.jsp";
 	public static String FLIGHT_MANAGEMENT = "flight_management.jsp";
     public static String EDIT_FLIGHT = "edit_flight.jsp";
-	public static String FLIGHT = "flight.jsp"; 
+	public static String FLIGHT = "flight.jsp";
+	public static String USER_MANAGEMENT = "user-management.jsp"; 
 
 }

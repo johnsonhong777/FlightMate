@@ -1,4 +1,4 @@
-package com.flightmate.servlets;
+package com.flightmate.servlets.flight;
 
 import com.flightmate.beans.Airport;
 import com.flightmate.beans.Flight;

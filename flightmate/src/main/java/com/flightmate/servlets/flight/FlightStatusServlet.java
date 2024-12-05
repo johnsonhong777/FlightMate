@@ -1,4 +1,4 @@
-package com.flightmate.servlets;
+package com.flightmate.servlets.flight;
 
 import java.io.IOException;
 import java.sql.SQLException;

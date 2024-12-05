@@ -12,6 +12,9 @@ public class ApplicationDao {
     public static final String ROLES_TABLE = "roles";
     public static final String AIRPORTS_TABLE = "airports";
     public static final String AIRCRAFT_TABLE = "aircrafts";
+    public static final String FLIGHTS_TABLE = "flights";
+    public static final String PILOT_HOURS_TABLE = "pilot_hours";
+    public static final String FEEDBACK_TABLE = "feedback";
     
     private ApplicationDao() {}
 
@@ -71,7 +74,6 @@ public class ApplicationDao {
     }
     
     public void createFlightsTable() {
-        String FLIGHTS_TABLE = "flights";
         try (
                 Connection conn = DBConnection.getDBInstance();
                 Statement stmt = conn.createStatement();
@@ -101,18 +103,24 @@ public class ApplicationDao {
     }
     
     public void createPilotHoursTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS pilot_hours ("
-                   + "id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, "
-                   + "pilot_id INT NOT NULL, "
-                   + "flight_date DATE NOT NULL, "
-                   + "hours_flighted DECIMAL(5,2) NOT NULL, "
-                   + "notes TEXT, "
-                   + "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, "
-                   + "FOREIGN KEY (pilot_id) REFERENCES users(user_id));";
-        try (Connection conn = DBConnection.getDBInstance();
-             Statement stmt = conn.createStatement()) {
-            stmt.executeUpdate(sql);
-            System.out.println("Created Pilot Hours Table");
+    	 try (
+                 Connection conn = DBConnection.getDBInstance();
+                 Statement stmt = conn.createStatement();
+             ) {
+             if (!tableExists(conn, PILOT_HOURS_TABLE)) {
+            	 System.out.print("Creating Pilot_Hours Table...");
+            	 String sql = "CREATE TABLE IF NOT EXISTS "+ PILOT_HOURS_TABLE +" ("
+                         + "id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, "
+                         + "pilot_id INT NOT NULL, "
+                         + "flight_date DATE NOT NULL, "
+                         + "hours_flighted DECIMAL(5,2) NOT NULL, "
+                         + "notes TEXT, "
+                         + "approval_status VARCHAR(15) DEFAULT 'PENDING', "
+                         + "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, "
+                         + "FOREIGN KEY (pilot_id) REFERENCES users(user_id));";
+            	 stmt.executeUpdate(sql);
+            	 System.out.println("Created Pilot Hours Table");
+             }
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -195,6 +203,31 @@ public class ApplicationDao {
                         + "FOREIGN KEY (airport_id) REFERENCES " + AIRPORTS_TABLE + "(id));";
                 stmt.executeUpdate(sql);
                 System.out.println("Created Aircrafts Table");
+            }
+
+        } catch (SQLException e) {
+            DBUtil.processException(e);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void createFeedbackTable() {
+        try (
+                Connection conn = DBConnection.getDBInstance();
+                Statement stmt = conn.createStatement();
+        ) {
+            if (!tableExists(conn, FEEDBACK_TABLE)) {
+                System.out.print("Creating Feedback Table...");
+                String sql = "CREATE TABLE IF NOT EXISTS " + FEEDBACK_TABLE + " ("
+                        + "feedback_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, "
+                        + "feedback_type VARCHAR(50) NOT NULL, "
+                        + "feedback_date DATE NOT NULL DEFAULT (CURDATE()), "
+                        + "feedback_comment TEXT NOT NULL, "
+                        + "user_id INT NOT NULL, "
+                        + "FOREIGN KEY (user_id) REFERENCES " + USERS_TABLE + "(user_id));";
+                stmt.executeUpdate(sql);
+                System.out.println("Created Feedback Table");
             }
 
         } catch (SQLException e) {
