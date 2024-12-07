@@ -11,7 +11,7 @@
     <jsp:include page='./components/header.jsp' />
     <main>
 		<section class="container mt-2">
-			<h2 class="section-title center">User Management</h2>
+			<h2 class="section-title">User Management</h2>
             <table class="dashboard-table w-full border-2 rounded mt-2">
                 <thead>
                     <tr>
@@ -44,27 +44,38 @@
         	</table>
 		</section>
 		<section class="container mt-2">
-			<h2 class="section-title center">User Feedback</h2>
+			<header>
+				<h2 class="section-title center">User Feedback</h2>
+				<form method="get" action="user-management" class="filter-form mb-2">
+			        <label for="filterType" class="mr-2">Filter by:</label>
+			        <select name="filterType" id="filterType" class="form-single-select mr-2">
+			            <option value="all" ${param.filterType == 'all' ? 'selected' : ''}>All</option>
+			            <option value="read" ${param.filterType == 'read' ? 'selected' : ''}>Read</option>
+			            <option value="unread" ${param.filterType == 'unread' ? 'selected' : ''}>Unread</option>
+			        </select>
+			        <button type="submit" class="btn">Apply</button>
+			    </form>
+		    </header>
             <table class="dashboard-table w-full border-2 rounded mt-2">
                 <thead>
                     <tr>
-                        <th>Feedback ID</th>
+                        <th>Date</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Feedback Type</th>
-                        <th>Date</th>
                         <th>Comment</th>
+                        <th>Read Status</th>
                     </tr>
                 </thead>
                 <tbody>
 	                <c:forEach var="feedbackItem" items="${feedback}">
-		                <tr>
-		                    <td>${feedbackItem.getFeedbackId()}</td>
+		                <tr class="${feedbackItem.hasRead() ? 'isRead' : 'isUnread' }">
+		                    <td>${feedbackItem.getFeedbackDate()}</td>
 		                    <td>${feedbackItem.getUser().getFirstName()} ${feedbackItem.getUser().getLastName()}</td>
 		                    <td>${feedbackItem.getUser().getEmail()}</td>
 		                    <td>${feedbackItem.getFeedbackType()}</td>
-		                    <td>${feedbackItem.getFeedbackDate()}</td>
 		                    <td>${feedbackItem.getFeedbackComment()}</td>
+		                    <td><a href="feedback-read?id=${feedbackItem.getFeedbackId()}" class="btn">${feedbackItem.hasRead() ? "Mark as Unread" : "Mark as Read"}</a></td>
 		                </tr>
 	                </c:forEach>
             	</tbody>

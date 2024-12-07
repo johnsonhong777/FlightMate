@@ -1,4 +1,4 @@
-package com.flightmate.servlets;
+package com.flightmate.servlets.feedback;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ import com.flightmate.libs.Route;
 import com.flightmate.libs.services.SessionService;
 
 @WebServlet("/submitFeedback")
-public class FeedbackServlet extends HttpServlet {
+public class SubmitFeedbackServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override

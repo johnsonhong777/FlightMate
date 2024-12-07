@@ -2,6 +2,7 @@ package com.flightmate.servlets.pages;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -55,9 +56,19 @@ public class UserManagementServlet extends HttpServlet {
         
         List<User> userList = UserDao.getDao().getAllUsers();
         req.setAttribute("users", userList);
-    
+        
+        
+        // Generate feedback list based on filter param
         List<Feedback> feedbackList = FeedbackDao.getDao().getAllFeedback();
-        req.setAttribute("feedback", feedbackList);
+        String filterType = req.getParameter("filterType") != null ? req.getParameter("filterType") : "all";
+        List<Feedback> filteredFeedback = feedbackList;
+        if (filterType.equals("read")) {
+        	filteredFeedback = feedbackList.stream().filter(Feedback::hasRead).collect(Collectors.toList());
+        } else if (filterType.equals("unread")) {
+        	filteredFeedback = feedbackList.stream().filter(feedback -> !feedback.hasRead()).collect(Collectors.toList());
+        }
+        
+        req.setAttribute("feedback", filteredFeedback);
         
         req.getRequestDispatcher(Route.USER_MANAGEMENT).forward(req, resp);
 	}

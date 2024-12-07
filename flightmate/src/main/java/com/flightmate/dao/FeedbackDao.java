@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class FeedbackDao {
 	private final String FEEDBACK_TYPE = "feedback_type";
 	private final String FEEDBACK_DATE = "feedback_date";
 	private final String FEEDBACK_COMMENT = "feedback_comment";
+	private final String FEEDBACK_HAS_READ = "has_read";
 	
 	private FeedbackDao() {};
 	
@@ -50,9 +52,45 @@ public class FeedbackDao {
 		}
 	}
 	
+	public Feedback getFeedbackById(int feedbackId) {
+		Feedback feedback = null;
+		String sql = "SELECT * FROM "+ApplicationDao.FEEDBACK_TABLE+" INNER JOIN "+ ApplicationDao.USERS_TABLE +" ON "+ApplicationDao.FEEDBACK_TABLE+"."+UserDao.USER_ID+" = "+ApplicationDao.USERS_TABLE+"."+UserDao.USER_ID+" WHERE "+FEEDBACK_ID+" = ?;";
+		try (
+				Connection conn = DBConnection.getDBInstance();
+				PreparedStatement stmt = conn.prepareStatement(sql);
+			) {
+				stmt.setInt(1, feedbackId);
+				ResultSet rs = stmt.executeQuery();
+				
+				if (rs != null && rs.next()) {
+					feedback = new FeedbackBuilder()
+							.setFeedbackId(rs.getInt(FEEDBACK_ID))
+							.setFeedbackType(rs.getString(FEEDBACK_TYPE))
+							.setFeedbackComment(rs.getString(FEEDBACK_COMMENT))
+							.setHasRead(rs.getBoolean(FEEDBACK_HAS_READ))
+							.setUser(new UserBuilder()
+									.setUserId(rs.getInt(UserDao.USER_ID))
+									.setFirstName(rs.getString(UserDao.FIRST_NAME))
+									.setLastName(rs.getString(UserDao.LAST_NAME))
+									.setEmail(rs.getString(UserDao.EMAIL_ADDRESS))
+									.setRoleId(rs.getInt(UserDao.ROLE_ID))
+									.create())
+							.setFeedbackDate(rs.getDate(FEEDBACK_DATE).toLocalDate())
+							.create();
+				}
+				
+			} catch (SQLException e) {
+				DBUtil.processException(e);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		
+		return feedback;
+	}
+	
 	public List<Feedback> getAllFeedback() {
 		List<Feedback> feedbackList = new ArrayList<>();
-		String sql = "SELECT * FROM "+ApplicationDao.FEEDBACK_TABLE+" INNER JOIN "+ ApplicationDao.USERS_TABLE +" ON "+ApplicationDao.FEEDBACK_TABLE+"."+UserDao.USER_ID+" = "+ApplicationDao.USERS_TABLE+"."+UserDao.USER_ID+";";
+		String sql = "SELECT * FROM "+ApplicationDao.FEEDBACK_TABLE+" INNER JOIN "+ ApplicationDao.USERS_TABLE +" ON "+ApplicationDao.FEEDBACK_TABLE+"."+UserDao.USER_ID+" = "+ApplicationDao.USERS_TABLE+"."+UserDao.USER_ID+" ORDER BY "+ApplicationDao.FEEDBACK_TABLE+"."+FEEDBACK_DATE+" DESC, "+ApplicationDao.FEEDBACK_TABLE+"."+FEEDBACK_HAS_READ+" ASC;";
 		try (
 				Connection conn = DBConnection.getDBInstance();
 				PreparedStatement stmt = conn.prepareStatement(sql);
@@ -63,6 +101,7 @@ public class FeedbackDao {
 						.setFeedbackId(rs.getInt(FEEDBACK_ID))
 						.setFeedbackType(rs.getString(FEEDBACK_TYPE))
 						.setFeedbackComment(rs.getString(FEEDBACK_COMMENT))
+						.setHasRead(rs.getBoolean(FEEDBACK_HAS_READ))
 						.setUser(new UserBuilder()
 								.setUserId(rs.getInt(UserDao.USER_ID))
 								.setFirstName(rs.getString(UserDao.FIRST_NAME))
@@ -81,5 +120,26 @@ public class FeedbackDao {
 		}
 		
 		return feedbackList;
+	}
+	
+	public boolean setFeedbackReadStatusById(boolean readStatus, int feedbackId) {
+		boolean updated = false;
+		String sql = "UPDATE "+ApplicationDao.FEEDBACK_TABLE+" SET "+FEEDBACK_HAS_READ+" = ? WHERE "+FEEDBACK_ID+" = ?;";
+		try (
+				Connection conn = DBConnection.getDBInstance();
+				PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			) {
+			stmt.setBoolean(1, readStatus);
+			stmt.setInt(2, feedbackId);
+			
+			updated = stmt.executeUpdate() > 0;
+						
+		} catch (SQLException e) {
+			DBUtil.processException(e);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		return updated;
 	}
 }

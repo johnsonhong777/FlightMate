@@ -9,6 +9,7 @@ public class FeedbackBuilder {
 	private int feedbackId;
 	private User user;
 	private String feedbackType, feedbackComment;
+	private boolean hasRead;
 	private LocalDate feedbackDate;
 	
 	public FeedbackBuilder setFeedbackId(int feedbackId) {
@@ -26,6 +27,11 @@ public class FeedbackBuilder {
 		return this;
 	}
 	
+	public FeedbackBuilder setHasRead(boolean hasRead) {
+		this.hasRead = hasRead;
+		return this;
+	}
+	
 	public FeedbackBuilder setFeedbackComment(String feedbackComment) {
 		this.feedbackComment = feedbackComment;
 		return this;
@@ -37,6 +43,6 @@ public class FeedbackBuilder {
 	}
 	
 	public Feedback create() {
-		return new Feedback(feedbackId, feedbackType, feedbackComment, feedbackDate, user);
+		return new Feedback(feedbackId, feedbackType, feedbackComment, feedbackDate, hasRead, user);
 	}
 }

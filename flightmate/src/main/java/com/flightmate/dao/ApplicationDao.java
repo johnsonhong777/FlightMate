@@ -224,6 +224,7 @@ public class ApplicationDao {
                         + "feedback_type VARCHAR(50) NOT NULL, "
                         + "feedback_date DATE NOT NULL DEFAULT (CURDATE()), "
                         + "feedback_comment TEXT NOT NULL, "
+                        + "has_read BOOLEAN DEFAULT FALSE, "
                         + "user_id INT NOT NULL, "
                         + "FOREIGN KEY (user_id) REFERENCES " + USERS_TABLE + "(user_id));";
                 stmt.executeUpdate(sql);

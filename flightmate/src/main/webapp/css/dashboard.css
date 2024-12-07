@@ -76,37 +76,6 @@ main {
 }
 
 /* ****************** */
-/* Table              */
-/* ****************** */
-
-.temptable, .temptable th, .temptable td {
-    margin: 0;
-}
-
-.temptable th, .temptable td {
-    border: 1px solid black;
-    text-align: left;         
-    padding: 4px;     
-}
-
-.temptable, .temptable th, .temptable td {
-    margin: 0;
-}
-
-.temptable th {
-    background-color: #007bff; 
-    color: white; 
-    border: 1px solid #007bff;
-    text-align: left;
-    padding: 4px;
-}
-
-.temptable td {
-    padding: 4px;
-    vertical-align: top;
-}
-
-/* ****************** */
 /* Dashboard Table    */
 /* ****************** */
 
@@ -147,6 +116,14 @@ main {
 
 .dashboard-table tbody tr:nth-child(odd) {
     background-color: #fff;
+}
+
+.isRead {
+	background-color: #d4d4d4 !important;
+}
+
+.isUnread {
+	font-weight: var(--fw-semibold);
 }
 
 .dashboard-table td {
