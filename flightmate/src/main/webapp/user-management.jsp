@@ -72,7 +72,7 @@
 		                <tr class="${feedbackItem.hasRead() ? 'isRead' : 'isUnread' }">
 		                    <td>${feedbackItem.getFeedbackDate()}</td>
 		                    <td>${feedbackItem.getUser().getFirstName()} ${feedbackItem.getUser().getLastName()}</td>
-		                    <td>${feedbackItem.getUser().getEmail()}</td>
+		                    <td><a href="mailto:${feedbackItem.getUser().getEmail()}" target="_blank">${feedbackItem.getUser().getEmail()}</a></td>
 		                    <td>${feedbackItem.getFeedbackType()}</td>
 		                    <td>${feedbackItem.getFeedbackComment()}</td>
 		                    <td><a href="feedback-read?id=${feedbackItem.getFeedbackId()}" class="btn">${feedbackItem.hasRead() ? "Mark as Unread" : "Mark as Read"}</a></td>
