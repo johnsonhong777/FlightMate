@@ -22,7 +22,7 @@
                 <c:if test="${user.getRole().toString() == 'ADMINISTRATOR'}">
                     <li><a href="aircraft" class="btn">Add New Aircraft</a></li>
                     <li><a href="user-management" class="btn">User Management</a></li>
-                    <li><a href="flight" class="btn">Manage Flights</a></li>
+                    <li><a href="flight-management" class="btn">Manage Flights</a></li>
                 </c:if>
             </ul>
             <p class="success mt-2">${message}</p>
@@ -86,7 +86,7 @@
 	            <table class="dashboard-table w-full border-2 rounded mt-2">
 	                <thead>
 	                    <tr>
-	                        <th>Pilot Id</th> <!-- Fix this so it retrieves the pilot name instead -->
+	                        <th>Pilot Name</th> <!-- Fix this so it retrieves the pilot name instead -->
 	                        <th>Flight Date</th>
 	                        <th>Hours</th>
 	                        <th>Notes</th>

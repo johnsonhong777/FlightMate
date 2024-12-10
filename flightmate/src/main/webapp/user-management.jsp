@@ -31,8 +31,8 @@
 		                    <td>${user.role}</td>
 		                    <td>
 		                        <div class="flex">
-		                            <a href="dashboard?action=edit&id=${user.userId}" class="btn">Edit</a>
-		                            <a href="dashboard?action=delete&id=${user.userId}" class="btn error ml-2"
+		                            <a href="user-management?action=edit&id=${user.userId}" class="btn">Edit</a>
+		                            <a href="user-management?action=delete&id=${user.userId}" class="btn error ml-2"
 		                               onclick="return confirm('Are you sure you want to delete this user?');">
 		                                Delete
 		                            </a>

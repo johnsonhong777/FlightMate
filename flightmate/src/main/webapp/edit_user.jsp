@@ -13,7 +13,7 @@
 
             <h1 class="center">Edit User</h1>
 
-<form action="${pageContext.request.contextPath}/dashboard" method="post">
+<form action="${pageContext.request.contextPath}/user-management" method="post">
     <input type="hidden" name="action" value="save" />
     <input type="hidden" name="user_id" value="${user.userId}" />
     

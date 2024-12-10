@@ -1,6 +1,7 @@
 package com.flightmate.servlets.pages;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,7 +35,10 @@ public class UserManagementServlet extends HttpServlet {
         if (!user.getRole().equals(Role.ADMINISTRATOR)) {
         	resp.sendRedirect("./dashboard");
         }
-        
+        // Set roles list as an attribute before forwarding
+        List<Role> roles = Arrays.asList(Role.values()); // Get the list of roles
+        req.setAttribute("roles", roles); // Pass the roles to the JSP
+
         String action = req.getParameter("action");
 	    if (action != null) {
 	        try {
@@ -118,12 +122,12 @@ public class UserManagementServlet extends HttpServlet {
 	        }
 	    }
 
-		private void handleDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+	 private void handleDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		    String userIdParam = req.getParameter("id");
 		    if (userIdParam == null || userIdParam.isEmpty()) {
 		        req.getSession().setAttribute("error", "User ID is required for deletion.");
-		        resp.sendRedirect(req.getContextPath() + "/dashboard");
-		        return; // Ensure no further actions are taken
+		        resp.sendRedirect(req.getContextPath() + "/user-management");
+		        return;
 		    }
 
 		    try {
@@ -132,17 +136,19 @@ public class UserManagementServlet extends HttpServlet {
 		        boolean deleted = UserDao.getDao().deleteUser(userId);
 
 		        if (deleted) {
-		            req.setAttribute("success", "User deleted successfully.");
+		            req.getSession().setAttribute("success", "User deleted successfully.");
 		        } else {
-		            req.setAttribute("error", "Failed to delete user.");
+		            req.getSession().setAttribute("error", "Failed to delete user.");
 		        }
 		    } catch (NumberFormatException e) {
-		        req.setAttribute("error", "Invalid User ID format.");
+		        req.getSession().setAttribute("error", "Invalid User ID format.");
 		    } catch (Exception e) {
 		        e.printStackTrace();
-		        req.setAttribute("error", "Unexpected error: " + e.getMessage());
+		        req.getSession().setAttribute("error", "Unexpected error: " + e.getMessage());
 		    }
-	    }
+
+		    resp.sendRedirect(req.getContextPath() + "/user-management"); // Ensure redirection to user management
+		}
 
 		private void handleSave(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		    String userIdParam = req.getParameter("user_id");
@@ -163,7 +169,7 @@ public class UserManagementServlet extends HttpServlet {
 		        // Validate the role ID
 		        if (roleIndex < 0 || roleIndex >= roles.length) {
 		            req.getSession().setAttribute("error", "Invalid role selected.");
-		            resp.sendRedirect(req.getContextPath() + "/dashboard"); // Redirect back to the dashboard
+		            resp.sendRedirect(req.getContextPath() + "/user-management");
 		            return;
 		        }
 
@@ -173,7 +179,7 @@ public class UserManagementServlet extends HttpServlet {
 		        User existingUser = UserDao.getDao().getUserById(userId);
 		        if (existingUser == null) {
 		            req.getSession().setAttribute("error", "User not found.");
-		            resp.sendRedirect(req.getContextPath() + "/dashboard"); // Redirect back to the dashboard
+		            resp.sendRedirect(req.getContextPath() + "/user-management"); 
 		            return;
 		        }
 
@@ -192,8 +198,8 @@ public class UserManagementServlet extends HttpServlet {
 		        req.getSession().setAttribute("error", "Unexpected error: " + e.getMessage());
 		    }
 
-		    // Redirect back to the dashboard page
-		    resp.sendRedirect(req.getContextPath() + "/dashboard");
+	
+		    resp.sendRedirect(req.getContextPath() + "/user-management");
 		}
 
 }

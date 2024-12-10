@@ -197,9 +197,9 @@ public class ApplicationDao {
                         + "next_maintenance_date DATE NOT NULL, "
                         + "aircraft_notes TEXT, "
                         + "created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(), "
-                        + "administrator_id INT NOT NULL, "
+                        + "administrator_id INT NULL, "
                         + "airport_id INT NOT NULL, "
-                        + "FOREIGN KEY (administrator_id) REFERENCES " + USERS_TABLE + "(user_id), "
+                        + "FOREIGN KEY (administrator_id) REFERENCES " + USERS_TABLE + "(user_id) , "
                         + "FOREIGN KEY (airport_id) REFERENCES " + AIRPORTS_TABLE + "(id));";
                 stmt.executeUpdate(sql);
                 System.out.println("Created Aircrafts Table");

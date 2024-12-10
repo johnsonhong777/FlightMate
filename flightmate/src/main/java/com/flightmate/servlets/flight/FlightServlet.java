@@ -51,7 +51,7 @@ public class FlightServlet extends HttpServlet {
             req.setAttribute("error", errorMessage);
             req.getSession().removeAttribute("error");
         }
-
+        req.setAttribute("flights", FlightDao.getDao().getAllFlights());
         // Proceed to render the form
         req.getRequestDispatcher(Route.FLIGHT).forward(req, resp);
     }
@@ -78,9 +78,6 @@ public class FlightServlet extends HttpServlet {
             LocalDateTime departureTime = LocalDateTime.parse(departureTimeStr);
             LocalDateTime arrivalTime = LocalDateTime.parse(arrivalTimeStr);
 
-            // Process multi-select fields for pilots and airport stops
-            String[] pilotIds = req.getParameterValues("pilots");
-            String[] airportStopIds = req.getParameterValues("airportStops");
 
             // Create a Flight object
             Flight flight = new FlightBuilder()
@@ -95,26 +92,8 @@ public class FlightServlet extends HttpServlet {
 
             // Save the flight to the database
             int flightId = FlightDao.getDao().addFlight(flight);
-
-            // Link pilots to the flight
-            if (flightId > 0 && pilotIds != null) {
-                for (String pilotId : pilotIds) {
-                    int pilotIdInt = Integer.parseInt(pilotId);
-                    FlightDao.getDao().addPilotToFlight(flightId, pilotIdInt);
-                }
-            }
-
-            // Link airport stops to the flight
-            if (flightId > 0 && airportStopIds != null) {
-                for (String airportId : airportStopIds) {
-                    int airportIdInt = Integer.parseInt(airportId);
-                    FlightDao.getDao().addAirportStopToFlight(flightId, airportIdInt);
-                }
-            }
-
-       
-
-
+          
+    
             // Store success message in session and redirect
             req.getSession().setAttribute("success", "Flight added successfully!");
             resp.sendRedirect(Route.FLIGHT);  // Redirect to another page, such as flight list

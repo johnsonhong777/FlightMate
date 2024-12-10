@@ -12,6 +12,7 @@ public class Flight {
     private LocalDateTime arrivalTime;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    
 
     // Full constructor for FlightBuilder
     public Flight(int flightId, String flightNumber, String origin, String destination, String status,
@@ -102,3 +103,4 @@ public class Flight {
         this.updatedAt = updatedAt;
     }
 }
+

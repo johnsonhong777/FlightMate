@@ -244,5 +244,7 @@ public class FlightDao {
 
         return statusCountMap;
     }
+    
+    
 
 }

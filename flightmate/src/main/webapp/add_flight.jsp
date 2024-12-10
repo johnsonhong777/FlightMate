@@ -50,50 +50,40 @@
 
                 <div class="form-group space-evenly">
                     <label for="origin" class="form-label">Origin:</label>
-                    <input type="text" id="origin" name="origin" class="form-input flex-2 border-2 rounded" required>
-                </div>
+<select id="origin" name="origin" class="form-input flex-2 border-2 rounded" required>
+    <option value="">Select Origin</option>
+    <c:forEach var="airport" items="${airports}">
+        <option value="${airport.code}">${airport.name}</option>
+    </c:forEach>
+</select>                </div>
 
                 <div class="form-group space-evenly">
                     <label for="destination" class="form-label">Destination:</label>
-                    <input type="text" id="destination" name="destination" class="form-input flex-2 border-2 rounded" required>
-                </div>
+<select id="destination" name="destination" class="form-input flex-2 border-2 rounded" required>
+    <option value="">Select Destination</option>
+    <c:forEach var="airport" items="${airports}">
+        <option value="${airport.code}">${airport.name}</option>
+    </c:forEach>
+</select>                </div>
 
-                <div class="form-group space-evenly">
-                    <label for="status" class="form-label">Status:</label>
-                    <select id="status" name="status" class="form-input border-2 rounded" required>
-                        <option value="Scheduled">Scheduled</option>
-                        <option value="Pending">Pending</option>
-                        <option value="Completed">Completed</option>
-                    </select>
-                </div>
-
-                <!-- Dropdown for Airport Stops -->
-                <div class="form-group space-evenly">
-                    <label for="airport_stops" class="form-label">Airport Stops:</label>
-                    <select id="airport_stops" name="airport_stops" class="form-input border-2 rounded" multiple>
-                        <c:forEach var="airport" items="${airports}">
-                            <option value="${airport.getAirportId}">${airport.airportName} (${airport.city}, ${airport.country})</option>
-                        </c:forEach>
-                    </select>
-                </div>
-
-                <!-- Dropdown for Assign Pilots -->
-                <div class="form-group space-evenly">
+               <div class="form-group space-evenly">
                     <label for="pilots" class="form-label">Assign Pilots:</label>
                     <select id="pilots" name="pilots" class="form-input border-2 rounded" multiple>
                         <c:forEach var="pilot" items="${pilots}">
                             <option value="${pilot.getUserId()}">${pilot.firstName} ${pilot.lastName}</option>
                         </c:forEach>
                     </select>
-                </div>
+                </div> 
 
                 <div class="form-group space-evenly">
                     <label for="status" class="form-label">Status:</label>
                     <select id="status" name="status" class="form-input border-2 rounded">
-                        <option value="Scheduled">Scheduled</option>
-                        <option value="Pending">Pending</option>
-                        <option value="Completed">Completed</option>
-                        <option value="Cancelled">Cancelled</option>
+       <option value="SCHEDULED">Scheduled</option>
+<option value="IN_PROGRESS">In Progress</option>
+<option value="COMPLETED">Completed</option>
+<option value="CANCELLED">Cancelled</option>
+<option value="DELAYED">Delayed</option>
+<option value="ON_TIME">On-Time</option>
                     </select>
                 </div>
 

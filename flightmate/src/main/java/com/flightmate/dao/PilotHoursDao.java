@@ -48,6 +48,8 @@ public class PilotHoursDao {
                 pendingHours.add(hour);
             }
         }
+  
+
         return pendingHours;
     }
 
