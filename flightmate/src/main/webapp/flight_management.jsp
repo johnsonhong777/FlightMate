@@ -10,7 +10,6 @@
 <body class="background">
     <jsp:include page='./components/header.jsp' />
      <main class="center">
-        <h1>Aircraft Management</h1>
             <h1 class="subtitle">Flight Management</h1>
 
           <section class="container mt-2">
