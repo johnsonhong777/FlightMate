@@ -65,5 +65,10 @@ public class Aircraft {
     public int getAirportId() {
         return airportId;
     }
+
+	public void setAircraftId(int int1) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 

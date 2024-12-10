@@ -70,26 +70,56 @@
                     </c:if>
                 </tr>
             </thead>
-            <tbody>
-                <c:forEach var="aircraft" items="${aircrafts}">
-                    <tr>
-                        <form method="post" action="AircraftServlet">
-                            <td>${aircraft.getAircraftId()}<input type="hidden" name="id" value="${aircraft.getAircraftId()}" /></td>
-                            <td><input type="text" class="form-input w-full" name="aircraft_model" value="${aircraft.getAircraftModel()}" /></td>
-                            <td><input type="date" class="form-input w-full" name="manufacture_date" value="${aircraft.getManufactureDate()}" /></td>
-                            <td><input type="date" class="form-input w-full" name="last_maintenance_date" value="${aircraft.getLastMaintenanceDate()}" /></td>
-                            <td><input type="date" class="form-input w-full" name="next_maintenance_date" value="${aircraft.getNextMaintenanceDate()}" /></td>
-                            <td><textarea class="form-input w-full" name="aircraft_notes">${aircraft.getAircraftNotes()}</textarea></td>
-                            <c:if test="${user.getRole().equals(roles['ADMINISTRATOR'])}">
-                                <td>
-                                    <input type="submit" name="action" value="Update" class="btn w-full" />
-                                    <input type="submit" name="action" value="Delete" class="btn error w-full mt-2" onclick="return confirm('Are you sure you want to delete this aircraft?')" />
-                                </td>
-                            </c:if>
-                        </form>
-                    </tr>
-                </c:forEach>
-            </tbody>
+           <tbody>
+    <c:forEach var="aircraft" items="${aircrafts}">
+        <!-- Wrap each row in a form to handle individual submissions for Update/Delete -->
+        <form action="${pageContext.request.contextPath}/UpdateDeleteAircraftServlet" method="POST">
+            <tr>
+                <td>
+                    ${aircraft.getAircraftId()}
+                    <input type="hidden" name="id" value="${aircraft.getAircraftId()}" />
+                </td>
+                <td>
+                    <input type="text" class="form-input w-full" name="aircraft_model" value="${aircraft.getAircraftModel()}" />
+                </td>
+                <td>
+                    <input type="date" class="form-input w-full" name="manufacture_date" value="${aircraft.getManufactureDate()}" />
+                </td>
+                <td>
+                    <input type="date" class="form-input w-full" name="last_maintenance_date" value="${aircraft.getLastMaintenanceDate()}" />
+                </td>
+                <td>
+                    <input type="date" class="form-input w-full" name="next_maintenance_date" value="${aircraft.getNextMaintenanceDate()}" />
+                </td>
+                <td>
+                    <textarea class="form-input w-full" name="aircraft_notes">${aircraft.getAircraftNotes()}</textarea>
+                </td>
+                <td>
+                <label for="airportId" class="form-label">Airport:</label>
+   <select id="airportId" name="airportId" class="form-input border-2 rounded" required>
+    <c:forEach var="airport" items="${airports}">
+        <option value="${airport.getAirportId()}">${airport.getAirportName()}</option>
+    </c:forEach>
+</select>
+                  </td>      
+                <td>
+                    <label for="administratorId" class="form-label">Administrator:</label>
+<select id="administratorId" name="administratorId" class="form-input border-2 rounded" required>
+    <c:forEach var="admin" items="${administrators}">
+        <option value="${admin.getUserId()}">${admin.getFirstName()} ${admin.getLastName()}</option>
+    </c:forEach>
+</select>
+                </td>
+                <c:if test="${user.getRole().equals(roles['ADMINISTRATOR'])}">
+                    <td>
+                        <input type="submit" name="action" value="Update" class="btn w-full" />
+                        <input type="submit" name="action" value="Delete" class="btn error w-full mt-2" onclick="return confirm('Are you sure you want to delete this aircraft?')" />
+                    </td>
+                </c:if>
+            </tr>
+        </form>
+    </c:forEach>
+</tbody>
         </table>
     </main>
 </body>

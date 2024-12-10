@@ -1,4 +1,4 @@
-package com.flightmate.servlets;
+package com.flightmate.servlets.aircraft;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -35,12 +35,14 @@ public class AircraftServlet extends HttpServlet {
             resp.sendRedirect(Route.LOGIN);
             return;
         }
+
+        // Fetch list of aircraft, administrators, and airports
         List<Aircraft> aircraftList = AircraftDao.getDao().getAllAircraft();
-        req.setAttribute("aircrafts", aircraftList);
-        // Fetch administrators and airports for the dropdown options
         List<User> administrators = UserDao.getDao().getAllAdministrators();
         List<Airport> airports = AirportDao.getDao().getAllAirports();
 
+        // Set attributes for the JSP
+        req.setAttribute("aircrafts", aircraftList);
         req.setAttribute("administrators", administrators);
         req.setAttribute("airports", airports);
 
@@ -99,7 +101,9 @@ public class AircraftServlet extends HttpServlet {
             req.getSession().setAttribute("error", "Invalid data entered: " + e.getMessage());
         }
 
-        // Redirect to avoid form resubmission and show success/error message
-        resp.sendRedirect(Route.AIRCRAFT); // Redirect to aircraft management page
+        // Redirect after POST to avoid form resubmission and show the updated list of aircraft
+        resp.sendRedirect("/flightmate/aircraft"); // This should redirect to the correct servlet
     }
+    
+    
 }

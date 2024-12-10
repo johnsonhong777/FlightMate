@@ -117,7 +117,7 @@ public class ApplicationDao {
                          + "notes TEXT, "
                          + "approval_status VARCHAR(15) DEFAULT 'PENDING', "
                          + "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, "
-                         + "FOREIGN KEY (pilot_id) REFERENCES users(user_id));";
+                         + "FOREIGN KEY (pilot_id) REFERENCES users(user_id) ON DELETE CASCADE);";
             	 stmt.executeUpdate(sql);
             	 System.out.println("Created Pilot Hours Table");
              }
@@ -143,7 +143,7 @@ public class ApplicationDao {
                         + "created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(), "
                         + "updated_at TIMESTAMP, "
                         + "deleted_at TIMESTAMP, "
-                        + "FOREIGN KEY (role_id) REFERENCES " + ROLES_TABLE + "(role_id));";
+                        + "FOREIGN KEY (role_id) REFERENCES " + ROLES_TABLE + "(role_id) ON DELETE CASCADE);";
                 stmt.executeUpdate(sql);
                 System.out.println("Created User Table");
             }
@@ -197,10 +197,10 @@ public class ApplicationDao {
                         + "next_maintenance_date DATE NOT NULL, "
                         + "aircraft_notes TEXT, "
                         + "created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(), "
-                        + "administrator_id INT NULL, "
+                        + "administrator_id INT NOT NULL, "
                         + "airport_id INT NOT NULL, "
-                        + "FOREIGN KEY (administrator_id) REFERENCES " + USERS_TABLE + "(user_id) , "
-                        + "FOREIGN KEY (airport_id) REFERENCES " + AIRPORTS_TABLE + "(id));";
+                        + "FOREIGN KEY (administrator_id) REFERENCES " + USERS_TABLE + "(user_id) ON DELETE CASCADE, "
+                        + "FOREIGN KEY (airport_id) REFERENCES " + AIRPORTS_TABLE + "(id) ON DELETE CASCADE);";
                 stmt.executeUpdate(sql);
                 System.out.println("Created Aircrafts Table");
             }
@@ -226,7 +226,7 @@ public class ApplicationDao {
                         + "feedback_comment TEXT NOT NULL, "
                         + "has_read BOOLEAN DEFAULT FALSE, "
                         + "user_id INT NOT NULL, "
-                        + "FOREIGN KEY (user_id) REFERENCES " + USERS_TABLE + "(user_id));";
+                        + "FOREIGN KEY (user_id) REFERENCES " + USERS_TABLE + "(user_id) ON DELETE CASCADE);";
                 stmt.executeUpdate(sql);
                 System.out.println("Created Feedback Table");
             }
